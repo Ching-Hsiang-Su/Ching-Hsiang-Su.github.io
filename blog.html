@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Blog - ChingHsiang Photography</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="description" content="蘇靖翔的攝影網誌與文章" />
+        <meta name="keywords" content="攝影, 網誌, Blog, 文章" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+    </head>
+    <body class="is-preload">
+        <!-- Navigation Bar -->
+        <nav style="display: flex; justify-content: center; gap: 2rem; padding: 1.5rem 0; font-family: sans-serif; font-size: 1rem;">
+          <a href="index.html">Home首頁</a>
+          <a href="gallery.html">Gallery作品集</a>
+          <a href="profile.html">Profile個人簡介</a>
+          <a href="blog.html">Blog網誌</a>
+        </nav>
+
+        <!-- Wrapper -->
+        <div id="wrapper">
+            <!-- Section -->
+            <section id="first">
+                <header>
+                    <h2>網誌<br>Blog</h2>
+                </header>
+                <div class="content">
+                    
+                    <!-- Medium 文章將會動態載入到這個區塊 -->
+                    <div id="medium-posts">
+                        <p>正在載入 Medium 最新文章...</p>
+                    </div>
+                    
+                </div>
+            </section>
+        </div>
+        
+        <!-- Scripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.scrolly.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+
+        <!-- 串接 Medium 文章的 Script -->
+        <script>
+            // 請將下方的 @your_medium_id 替換成你的 Medium 帳號（記得保留 @）
+            const mediumUsername = '@kmes9940211'; 
+            const rssUrl = `https://medium.com/feed/${mediumUsername}`;
+            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const postsContainer = document.getElementById('medium-posts');
+                    postsContainer.innerHTML = ''; // 清空載入中文字
+
+                    if (data.status === 'ok' && data.items.length > 0) {
+                        data.items.forEach(item => {
+                            // 嘗試抓取文章首圖：先看 API 有沒有提供，沒有的話從內文中擷取第一張圖片
+                            let imageUrl = item.thumbnail;
+                            if (!imageUrl) {
+                                const imgMatch = (item.content || item.description).match(/<img[^>]+src="([^">]+)"/);
+                                if (imgMatch) {
+                                    imageUrl = imgMatch[1];
+                                }
+                            }
+                            
+                            // 產生圖片區塊的 HTML (如果有抓到圖片的話)
+                            const imgHTML = imageUrl ? `<a href="${item.link}" target="_blank" class="image fit"><img src="${imageUrl}" alt="${item.title}" style="max-height: 400px; object-fit: cover; object-position: center;" /></a>` : '';
+
+                            // 抓取純文字摘要，避免 HTML 標籤弄亂版面
+                            const tmp = document.createElement('div');
+                            tmp.innerHTML = item.description;
+                            const summary = tmp.textContent || tmp.innerText || '';
+                            const shortSummary = summary.substring(0, 150) + '...';
+
+                            const postHTML = `
+                                <h3>${item.title}</h3>
+                                ${imgHTML}
+                                <p>${shortSummary}</p>
+                                <ul class="actions">
+                                    <li><a href="${item.link}" target="_blank" class="button primary">閱讀全文</a></li>
+                                </ul>
+                                <hr />
+                            `;
+                            postsContainer.innerHTML += postHTML;
+                        });
+                    } else {
+                        postsContainer.innerHTML = '<p>目前沒有文章，或載入失敗。</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('載入 Medium 文章失敗:', error);
+                    document.getElementById('medium-posts').innerHTML = '<p>載入文章時發生錯誤，請稍後再試。</p>';
+                });
+        </script>
+    </body>
+</html>
