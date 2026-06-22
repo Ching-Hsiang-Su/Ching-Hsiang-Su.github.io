@@ -595,6 +595,54 @@
 			}
 		}
 
+	#wrapper > section.page-intro {
+		transition: opacity 1s ease;
+		opacity: 1;
+
+		> header {
+			transition: transform 1s ease;
+		}
+
+		> .content {
+			transition: transform 1s ease;
+		}
+
+		body.is-preload & {
+			opacity: 0;
+
+			> header {
+				transform: translateY(1rem);
+			}
+
+			> .content {
+				transform: translateY(-1rem);
+			}
+		}
+
+		@include breakpoint('<=large') {
+			> header {
+				> * {
+					transition: transform 1s ease, opacity 1s ease;
+				}
+			}
+
+			body.is-preload & {
+				> header {
+					transform: none;
+
+					> * {
+						transform: translate(-0.5rem);
+						opacity: 0;
+					}
+				}
+
+				> .content {
+					transform: none;
+				}
+			}
+		}
+	}
+
 	// Preload.
 		#wrapper {
 

@@ -2933,6 +2933,7 @@ input, select, textarea {
 			display: block;
 			margin: 1.25rem 0 0 1.25rem;
 			outline: 0;
+			overflow: hidden;
 			position: relative;
 			width: calc(50% - 1.25rem);
 		}
@@ -2957,6 +2958,31 @@ input, select, textarea {
 			.gallery a.portrait img {
 				height: 30vw;
 			}
+
+			.gallery a .gallery-title {
+				background: linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0));
+				bottom: 0;
+				color: #ffffff;
+				display: block;
+				font-size: 1.15rem;
+				font-weight: 700;
+				left: 0;
+				letter-spacing: 0.075em;
+				line-height: 1.35;
+				padding: 4rem 1.5rem 1.25rem 1.5rem;
+				pointer-events: none;
+				position: absolute;
+				right: 0;
+				text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+			}
+
+				.gallery a .gallery-title small {
+					display: block;
+					font-size: 0.75rem;
+					font-weight: 400;
+					letter-spacing: 0.1em;
+					opacity: 0.85;
+				}
 
 		.gallery .modal {
 			display: -moz-flex;
@@ -3148,6 +3174,32 @@ input, select, textarea {
 			}
 
 		}
+
+	@media screen and (min-width: 1153px) {
+
+		#wrapper section.gallery-overview {
+			grid-template-columns: 34vw 66vw;
+		}
+
+			#wrapper section.gallery-overview > .content {
+				max-width: 72rem;
+				padding-right: 5rem;
+			}
+
+			#wrapper section.gallery-overview .gallery a.landscape {
+				width: calc(50% - 1.25rem);
+			}
+
+			#wrapper section.gallery-overview .gallery a.landscape:last-child:nth-child(odd) {
+				width: 100%;
+			}
+
+				#wrapper section.gallery-overview .gallery a.landscape img {
+					height: clamp(15rem, 18vw, 22rem);
+					min-height: 15rem;
+				}
+
+	}
 
 /* Feature Icons */
 
@@ -3838,6 +3890,52 @@ input, select, textarea {
 				}
 
 			body.is-preload #wrapper > section.intro > .content {
+				transform: none;
+			}
+
+		}
+
+	#wrapper > section.page-intro {
+		transition: opacity 1s ease;
+		opacity: 1;
+	}
+
+		#wrapper > section.page-intro > header {
+			transition: transform 1s ease;
+		}
+
+		#wrapper > section.page-intro > .content {
+			transition: transform 1s ease;
+		}
+
+		body.is-preload #wrapper > section.page-intro {
+			opacity: 0;
+		}
+
+			body.is-preload #wrapper > section.page-intro > header {
+				transform: translateY(1rem);
+			}
+
+			body.is-preload #wrapper > section.page-intro > .content {
+				transform: translateY(-1rem);
+			}
+
+		@media screen and (max-width: 1280px) {
+
+			#wrapper > section.page-intro > header > * {
+				transition: transform 1s ease, opacity 1s ease;
+			}
+
+			body.is-preload #wrapper > section.page-intro > header {
+				transform: none;
+			}
+
+				body.is-preload #wrapper > section.page-intro > header > * {
+					transform: translate(-0.5rem);
+					opacity: 0;
+				}
+
+			body.is-preload #wrapper > section.page-intro > .content {
 				transform: none;
 			}
 

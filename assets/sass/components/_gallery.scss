@@ -29,6 +29,7 @@
 			display: block;
 			margin: $gutter 0 0 $gutter;
 			outline: 0;
+			overflow: hidden;
 			position: relative;
 			width: calc(50% - #{$gutter});
 
@@ -52,6 +53,31 @@
 			&.portrait {
 				img {
 					height: 30vw;
+				}
+			}
+
+			.gallery-title {
+				background: linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0));
+				bottom: 0;
+				color: #ffffff;
+				display: block;
+				font-size: 1.15rem;
+				font-weight: _font(weight-bold);
+				left: 0;
+				letter-spacing: 0.075em;
+				line-height: 1.35;
+				padding: 4rem 1.5rem 1.25rem 1.5rem;
+				pointer-events: none;
+				position: absolute;
+				right: 0;
+				text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+
+				small {
+					display: block;
+					font-size: 0.75rem;
+					font-weight: _font(weight);
+					letter-spacing: 0.1em;
+					opacity: 0.85;
 				}
 			}
 		}
@@ -229,6 +255,33 @@
 				&.portrait {
 					img {
 						height: 14rem;
+					}
+				}
+			}
+		}
+
+	}
+
+	@media screen and (min-width: 1153px) {
+		#wrapper section.gallery-overview {
+			grid-template-columns: 34vw 66vw;
+
+			> .content {
+				max-width: 72rem;
+				padding-right: 5rem;
+			}
+
+			.gallery {
+				a.landscape {
+					width: calc(50% - #{_size(gallery-gutter)});
+
+					&:last-child:nth-child(odd) {
+						width: 100%;
+					}
+
+					img {
+						height: clamp(15rem, 18vw, 22rem);
+						min-height: 15rem;
 					}
 				}
 			}
