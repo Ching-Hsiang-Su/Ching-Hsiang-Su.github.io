@@ -3553,8 +3553,9 @@ input, select, textarea {
 			}
 
 		#wrapper > section > header:before {
-			height: calc(100% + 10rem);
+			height: calc(100% + 10rem + 2px);
 			left: calc(50vw - 5rem);
+			margin-top: calc(1rem - 1px);
 		}
 
 		#wrapper > section > header h1:before, #wrapper > section > header h2:before {
@@ -3626,8 +3627,9 @@ input, select, textarea {
 					}
 
 				#wrapper > section > header:before {
-					height: calc(100% + 8rem);
+					height: calc(100% + 8rem + 2px);
 					left: calc(50vw - 4rem);
+					margin-top: calc(1rem - 1px);
 				}
 
 				#wrapper > section > header h1:before, #wrapper > section > header h2:before {
@@ -3937,13 +3939,9 @@ input, select, textarea {
 		background-position: 25% 23%;
 	}
 
-	#wrapper:before {
-		transition: opacity 1s ease;
+	body.is-preload #wrapper:before {
+		opacity: 1;
 	}
-
-		body.is-preload #wrapper:before {
-			opacity: 0;
-		}
 
 	#wrapper > section.intro {
 		transition: opacity 1s ease;
@@ -4035,6 +4033,40 @@ input, select, textarea {
 				transform: none;
 			}
 
+		}
+
+	#wrapper:before {
+		transition: none;
+	}
+
+	#wrapper > section.intro,
+	#wrapper > section.page-intro {
+		opacity: 1;
+	}
+
+		#wrapper > section.intro > header,
+		#wrapper > section.intro > header > *,
+		#wrapper > section.page-intro > header,
+		#wrapper > section.page-intro > header > * {
+			opacity: 1 !important;
+			transform: none !important;
+		}
+
+	body.is-preload #wrapper:before {
+		opacity: 1;
+	}
+
+	body.is-preload #wrapper > section.intro,
+	body.is-preload #wrapper > section.page-intro {
+		opacity: 1;
+	}
+
+		body.is-preload #wrapper > section.intro > header,
+		body.is-preload #wrapper > section.intro > header > *,
+		body.is-preload #wrapper > section.page-intro > header,
+		body.is-preload #wrapper > section.page-intro > header > * {
+			opacity: 1 !important;
+			transform: none !important;
 		}
 
 	body.is-ie #wrapper section {

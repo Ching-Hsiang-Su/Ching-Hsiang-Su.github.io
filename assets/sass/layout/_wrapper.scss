@@ -33,8 +33,9 @@
 
 					// Line.
 						&:before {
-							height: calc(100% + #{$pad * 2});
+							height: calc(100% + #{$pad * 2} + #{_size(line-width)});
 							left: calc(50vw - #{$pad});
+							margin-top: calc(1rem - #{_size(line-width) * 0.5});
 						}
 
 					// Headings.
@@ -648,10 +649,8 @@
 
 			// Background.
 				&:before {
-					transition: opacity 1s ease;
-
 					body.is-preload & {
-						opacity: 0;
+						opacity: 1;
 					}
 				}
 
@@ -709,6 +708,45 @@
 
 				}
 
+		}
+
+		// Keep the timeline line and its heading connectors stable while content loads.
+		#wrapper {
+			&:before {
+				transition: none;
+			}
+
+			> section.intro,
+			> section.page-intro {
+				opacity: 1;
+
+				> header {
+					&,
+					> * {
+						opacity: 1 !important;
+						transform: none !important;
+					}
+				}
+			}
+
+			body.is-preload & {
+				&:before {
+					opacity: 1;
+				}
+
+				> section.intro,
+				> section.page-intro {
+					opacity: 1;
+
+					> header {
+						&,
+						> * {
+							opacity: 1 !important;
+							transform: none !important;
+						}
+					}
+				}
+			}
 		}
 
 	// IE.
