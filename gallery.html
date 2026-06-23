@@ -1,59 +1,57 @@
-<!DOCTYPE HTML>
-<html>
+﻿<!DOCTYPE HTML>
+<html lang="zh-Hant">
     <head>
-        <title>Gallery - ChingHsiang Photography</title>
+        <title>Gallery | ChingHsiang Photography</title>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <meta name="description" content="蘇靖翔的攝影作品集" />
-        <meta name="keywords" content="攝影, 作品集, Gallery" />
-        <link rel="stylesheet" href="assets/css/main.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="蘇靖翔的精選攝影作品集，包含藝文攝影、美食棚拍、活動紀錄、動態錄影與風景攝影。" />
+        <meta name="keywords" content="攝影作品集, 藝文攝影, 美食棚拍, 活動紀錄, 動態錄影, 風景攝影" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,600,700,300i,600i,700i|Raleway:600,800&display=swap" />
+        <link rel="stylesheet" href="assets/css/main.css?v=20260623-profile-ratio" />
     </head>
     <body class="is-preload">
-        <!-- Navigation Bar -->
-        <nav style="display: flex; justify-content: center; gap: 2rem; padding: 1.5rem 0; font-family: sans-serif; font-size: 1rem;">
-          <a href="index.html">Home首頁</a>
-          <a href="gallery.html">Gallery作品集</a>
-          <a href="profile.html">Profile個人簡介</a>
-          <a href="blog.html">Blog網誌</a>
+        <nav class="site-nav" aria-label="主要導覽">
+            <a href="index.html">Home 首頁</a>
+            <a href="gallery.html" aria-current="page">Gallery 作品集</a>
+            <a href="profile.html">Profile 個人簡介</a>
+            <a href="blog.html">Blog 網誌</a>
         </nav>
 
-        <!-- Wrapper -->
-        <div id="wrapper">
-            <!-- Section -->
-            <section id="first" class="gallery-overview">
+        <main id="wrapper">
+            <section id="first" class="gallery-overview page-intro">
                 <header>
-                    <h2>作品集<br>Gallery</h2>
+                    <h1 class="page-title">作品集<br />Gallery</h1>
                 </header>
                 <div class="content">
-                    <p>這裡是我的精選攝影作品，點擊圖片可進入各分類作品集觀看完整內容。</p>
+                    <p>這裡整理了不同類型的精選攝影作品，點擊分類可進入各作品頁。</p>
                     <div class="gallery">
                         <a href="gallery-art.html" class="landscape">
-                            <img src="images/gallery/fulls/藝文攝影.jpg" alt="藝文攝影" />
+                            <img src="images/gallery/fulls/藝文攝影.jpg" width="1600" height="1068" alt="藝文攝影作品分類" decoding="async" />
                             <span class="gallery-title">藝文攝影<small>Art Photography</small></span>
                         </a>
                         <a href="gallery-food.html" class="landscape">
-                            <img src="images/gallery/fulls/美食棚拍.jpg" alt="美食棚拍" />
+                            <img src="images/gallery/fulls/美食棚拍.jpg" width="1600" height="1068" alt="美食棚拍作品分類" decoding="async" />
                             <span class="gallery-title">美食棚拍<small>Food Photography</small></span>
                         </a>
                         <a href="gallery-event.html" class="landscape">
-                            <img src="images/gallery/fulls/活動紀錄.jpg" alt="活動紀錄" />
-                            <span class="gallery-title">活動攝影<small>Event Photography</small></span>
+                            <img src="images/gallery/fulls/活動紀錄.jpg" width="1280" height="832" alt="活動紀錄作品分類" decoding="async" />
+                            <span class="gallery-title">活動紀錄<small>Event Photography</small></span>
                         </a>
                         <a href="gallery-video.html" class="landscape">
-                            <img src="images/gallery/fulls/動態錄影.jpg" alt="動態錄影" />
+                            <img src="images/gallery/fulls/動態錄影.jpg" width="1280" height="831" alt="動態錄影作品分類" decoding="async" />
                             <span class="gallery-title">動態錄影<small>Video Production</small></span>
                         </a>
                         <a href="gallery-landscape.html" class="landscape">
-                            <img src="images/gallery/fulls/風景攝影.jpg" alt="風景攝影" />
+                            <img src="images/gallery/fulls/風景攝影.jpg" width="1280" height="831" alt="風景攝影作品分類" decoding="async" />
                             <span class="gallery-title">風景攝影<small>Landscape Photography</small></span>
                         </a>
-                        <!-- 未來若有更多作品，可以繼續用上面的 <a>...</a> 格式新增 -->
                     </div>
                 </div>
             </section>
-        </div>
-        
-        <!-- Scripts -->
+        </main>
+
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/jquery.scrolly.min.js"></script>
         <script src="assets/js/browser.min.js"></script>

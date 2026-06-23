@@ -90,10 +90,11 @@
 					$gallery = $a.parents('.gallery'),
 					$modal = $gallery.children('.modal'),
 					$modalImg = $modal.find('img'),
-					href = $a.attr('href');
+					href = $a.attr('href'),
+					alt = $a.find('img').attr('alt') || '';
 
 				// Not an image? Bail.
-					if (!href.match(/\.(jpg|gif|png|mp4)$/))
+					if (!href.match(/\.(jpe?g|gif|png|webp)(\?.*)?$/i))
 						return;
 
 				// Prevent default.
@@ -106,9 +107,12 @@
 
 				// Lock.
 					$modal[0]._locked = true;
+					$modal[0]._returnFocus = $a[0];
 
 				// Set src.
-					$modalImg.attr('src', href);
+					$modalImg
+						.attr('src', href)
+						.attr('alt', alt);
 
 				// Set visible.
 					$modal.addClass('visible');
@@ -146,31 +150,38 @@
 
 				// Clear visible, loaded.
 					$modal
-						.removeClass('loaded')
+						.removeClass('loaded');
 
 				// Delay.
 					setTimeout(function() {
 
 						$modal
-							.removeClass('visible')
+							.removeClass('visible');
 
 						setTimeout(function() {
 
 							// Clear src.
-								$modalImg.attr('src', '');
+								$modalImg
+									.attr('src', '')
+									.attr('alt', '');
 
 							// Unlock.
 								$modal[0]._locked = false;
 
 							// Focus.
-								$body.focus();
+								if ($modal[0]._returnFocus)
+									$($modal[0]._returnFocus).trigger('focus');
+								else
+									$body.trigger('focus');
+
+								$modal[0]._returnFocus = null;
 
 						}, 475);
 
 					}, 125);
 
 			})
-			.on('keypress', '.modal', function(event) {
+			.on('keydown', '.modal', function(event) {
 
 				var $modal = $(this);
 
@@ -185,7 +196,7 @@
 					event.stopPropagation();
 
 			})
-			.prepend('<div class="modal" tabIndex="-1"><div class="inner"><img src="" /></div></div>')
+			.prepend('<div class="modal" tabindex="-1" role="dialog" aria-modal="true" aria-label="作品預覽"><div class="inner"><img src="" alt="" /></div></div>')
 				.find('img')
 					.on('load', function(event) {
 

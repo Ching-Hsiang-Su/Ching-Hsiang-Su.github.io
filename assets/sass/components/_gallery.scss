@@ -33,6 +33,11 @@
 			position: relative;
 			width: calc(50% - #{$gutter});
 
+			&:focus-visible {
+				box-shadow: 0 0 0 3px _palette(accent);
+				outline: 0;
+			}
+
 			img {
 				display: block;
 				height: 25vw;
@@ -101,7 +106,7 @@
 			outline: 0;
 			position: fixed;
 			top: 0;
-			visibility: none;
+			visibility: hidden;
 			width: 100%;
 			z-index: 0;
 
