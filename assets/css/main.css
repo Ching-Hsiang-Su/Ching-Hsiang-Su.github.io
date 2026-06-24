@@ -2679,6 +2679,19 @@ input, select, textarea {
 
 		}
 
+		ul.work-list {
+			display: grid;
+			gap: 0.75rem;
+			list-style: none;
+			padding-left: 0;
+		}
+
+			ul.work-list > li {
+				background: rgba(144, 144, 144, 0.1);
+				border-left: solid 3px #43d9b8;
+				padding: 0.75rem 1rem;
+			}
+
 	dl {
 		margin: 0 0 2rem 0;
 	}
