@@ -41,6 +41,96 @@
 				offset: 100
 			});
 
+	// Portfolio galleries.
+		$('.portfolio-gallery[data-gallery-category]').each(function() {
+
+			var $gallery = $(this),
+				category = $gallery.data('gallery-category'),
+				start = parseInt($gallery.data('gallery-start'), 10) || 1,
+				count = parseInt($gallery.data('gallery-count'), 10),
+				label = $gallery.data('gallery-label') || '攝影作品';
+
+			if (!category || !count)
+				return;
+
+			for (var offset = 0; offset < count; offset++) {
+				var index = start + offset,
+					number = ('0' + index).slice(-2),
+					source = 'images/portfolio/' + category + '/' + category + '-' + number + '.webp';
+
+				$('<a />', {
+					href: source,
+					'aria-label': '放大查看' + label + '第' + (offset + 1) + '張'
+				})
+					.append($('<img />', {
+						src: source,
+						alt: label + '第' + (offset + 1) + '張',
+						loading: 'lazy',
+						decoding: 'async'
+					}))
+					.appendTo($gallery);
+			}
+
+		});
+
+		$('.portfolio-gallery[data-gallery-layout="carousel"]').each(function() {
+
+			var $track = $(this),
+				track = $track[0],
+				count = parseInt($track.data('gallery-count'), 10),
+				label = $track.data('gallery-label') || '作品',
+				$previous = $('<button type="button" class="portfolio-carousel-button previous" aria-label="上一張"></button>'),
+				$next = $('<button type="button" class="portfolio-carousel-button next" aria-label="下一張"></button>'),
+				$status = $('<span class="portfolio-carousel-status" aria-live="polite"></span>');
+
+			$track
+				.addClass('portfolio-carousel-track')
+				.attr({
+					role: 'region',
+					'aria-label': label + '照片輪播',
+					'aria-roledescription': 'carousel',
+					tabindex: '0'
+				})
+				.wrap('<div class="portfolio-carousel"></div>');
+
+			$('<div class="portfolio-carousel-controls"></div>')
+				.append($status, $previous, $next)
+				.insertAfter($track);
+
+			var getStep = function() {
+				var card = $track.children('a').get(0),
+					styles = window.getComputedStyle(track),
+					gap = parseFloat(styles.columnGap || styles.gap) || 0;
+
+				return card ? card.getBoundingClientRect().width + gap : track.clientWidth;
+			};
+
+			var updateControls = function() {
+				var maximum = Math.max(0, track.scrollWidth - track.clientWidth),
+					current = Math.min(count, Math.round(track.scrollLeft / getStep()) + 1);
+
+				$previous.prop('disabled', track.scrollLeft <= 1);
+				$next.prop('disabled', track.scrollLeft >= maximum - 1);
+				$status.text(current + ' / ' + count);
+			};
+
+			var move = function(direction) {
+				var destination = track.scrollLeft + (getStep() * direction);
+
+				if (typeof track.scrollTo === 'function')
+					track.scrollTo({ left: destination, behavior: 'smooth' });
+				else
+					$track.stop().animate({ scrollLeft: destination }, 250);
+			};
+
+			$previous.on('click', function() { move(-1); });
+			$next.on('click', function() { move(1); });
+			$track.on('scroll', updateControls);
+			$window.on('resize', updateControls);
+			updateControls();
+
+		});
+
 	// Polyfill: Object fit.
 		if (!browser.canUse('object-fit')) {
 
@@ -86,12 +176,13 @@
 		$('.gallery')
 			.on('click', 'a', function(event) {
 
-				var $a = $(this),
-					$gallery = $a.parents('.gallery'),
-					$modal = $gallery.children('.modal'),
-					$modalImg = $modal.find('img'),
-					href = $a.attr('href'),
-					alt = $a.find('img').attr('alt') || '';
+					var $a = $(this),
+						$gallery = $a.parents('.gallery'),
+						$modal = $gallery.children('.modal'),
+						$modalImg = $modal.find('img'),
+						$modalClose = $modal.find('.modal-close'),
+						href = $a.attr('href'),
+						alt = $a.find('img').attr('alt') || '';
 
 				// Not an image? Bail.
 					if (!href.match(/\.(jpe?g|gif|png|webp)(\?.*)?$/i))
@@ -115,10 +206,14 @@
 						.attr('alt', alt);
 
 				// Set visible.
-					$modal.addClass('visible');
+						$modal.addClass('visible');
+						$modal.attr('aria-hidden', 'false');
+						$body.addClass('is-modal-open');
 
-				// Focus.
-					$modal.focus();
+					// Focus.
+						window.setTimeout(function() {
+							$modalClose[0].focus();
+						}, 100);
 
 				// Delay.
 					setTimeout(function() {
@@ -155,8 +250,10 @@
 				// Delay.
 					setTimeout(function() {
 
-						$modal
-							.removeClass('visible');
+								$modal
+									.removeClass('visible')
+									.attr('aria-hidden', 'true');
+								$body.removeClass('is-modal-open');
 
 						setTimeout(function() {
 
@@ -185,9 +282,15 @@
 
 				var $modal = $(this);
 
-				// Escape? Hide modal.
-					if (event.keyCode == 27)
-						$modal.trigger('click');
+					// Escape? Hide modal.
+						if (event.keyCode == 27)
+							$modal.trigger('click');
+
+					// Keep keyboard focus inside the preview.
+						if (event.keyCode == 9) {
+							event.preventDefault();
+							$modal.find('.modal-close')[0].focus();
+						}
 
 			})
 			.on('mouseup mousedown mousemove', '.modal', function(event) {
@@ -196,7 +299,7 @@
 					event.stopPropagation();
 
 			})
-			.prepend('<div class="modal" tabindex="-1" role="dialog" aria-modal="true" aria-label="作品預覽"><div class="inner"><img src="" alt="" /></div></div>')
+				.prepend('<div class="modal" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true" aria-label="作品預覽"><button type="button" class="modal-close" aria-label="關閉作品預覽"></button><div class="inner"><img src="" alt="" /></div></div>')
 				.find('img')
 					.on('load', function(event) {
 

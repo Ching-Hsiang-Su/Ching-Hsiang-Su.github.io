@@ -1,17 +1,28 @@
 ﻿<!DOCTYPE HTML>
 <html lang="zh-Hant">
     <head>
-        <title>Blog | ChingHsiang Photography</title>
+        <title>攝影網誌 | ChingHsiang Photography</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="蘇靖翔的攝影網誌與 Medium 文章列表。" />
-        <meta name="keywords" content="攝影, 網誌, Blog, Medium, 文章" />
+        <meta name="theme-color" content="#43d9b8" />
+        <link rel="canonical" href="https://ching-hsiang-su.github.io/blog.html" />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="zh_TW" />
+        <meta property="og:site_name" content="ChingHsiang Photography" />
+        <meta property="og:title" content="攝影網誌 | ChingHsiang Photography" />
+        <meta property="og:description" content="攝影作品背後的旅行、現場觀察與影像筆記。" />
+        <meta property="og:url" content="https://ching-hsiang-su.github.io/blog.html" />
+        <meta property="og:image" content="https://ching-hsiang-su.github.io/images/%E6%BD%AE%E5%A2%83%E5%85%AC%E5%9C%92.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,600,700,300i,600i,700i|Raleway:600,800&display=swap" />
-        <link rel="stylesheet" href="assets/css/main.css?v=20260624-structure" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,600,700,300i,600i,700i|Raleway:600,800&amp;display=swap" />
+        <link rel="stylesheet" href="assets/css/main.css?v=20260711-carousel" />
     </head>
-    <body class="is-preload">
+    <body class="is-preload inner-page">
+        <a class="skip-link" href="#main-content">跳至主要內容</a>
         <nav class="site-nav" aria-label="主要導覽">
             <a href="index.html">Home 首頁</a>
             <a href="gallery.html">Gallery 作品集</a>
@@ -19,39 +30,76 @@
             <a href="blog.html" aria-current="page">Blog 網誌</a>
         </nav>
 
-        <main id="wrapper">
+        <main id="main-content" tabindex="-1">
+            <div id="wrapper">
             <section id="first" class="page-intro">
                 <header>
                     <h1 class="page-title">網誌<br />Blog</h1>
                 </header>
                 <div class="content">
-                    <div id="medium-posts" aria-live="polite">
-                        <p>正在載入 Medium 最新文章...</p>
+                    <p class="lead">攝影作品背後的旅行、現場觀察與影像筆記，最新文章會由 Medium 自動同步。</p>
+                    <div id="medium-posts" aria-live="polite" aria-busy="true">
+                        <div class="blog-loading" aria-hidden="true">
+                            <span class="skeleton-title"></span>
+                            <span class="skeleton-image"></span>
+                            <span class="skeleton-line"></span>
+                            <span class="skeleton-line short"></span>
+                        </div>
+                        <p class="visually-hidden">正在載入 Medium 最新文章...</p>
                     </div>
+                    <p class="blog-fallback">若載入時間較長，可直接前往 <a href="https://medium.com/@kmes9940211" target="_blank" rel="noopener noreferrer">Medium 閱讀全部文章</a>。</p>
                     <noscript>
-                        <p>此頁需要 JavaScript 才能載入 Medium 文章。</p>
+                        <p>此頁需要 JavaScript 才能載入文章，請直接前往 <a href="https://medium.com/@kmes9940211">Medium</a>。</p>
                     </noscript>
                 </div>
             </section>
+            </div>
         </main>
+
+        <footer class="site-footer">
+            <div>
+                <strong>ChingHsiang Photography</strong>
+                <p>攝影作品、旅行紀錄與影像觀察。</p>
+            </div>
+            <nav class="footer-links" aria-label="頁尾連結">
+                <a href="mailto:chinghsiang0622@icloud.com">合作詢價</a>
+                <a href="https://medium.com/@kmes9940211" target="_blank" rel="noopener noreferrer">Medium</a>
+            </nav>
+            <small>© 2026 蘇靖翔 ChingHsiang Photography</small>
+        </footer>
 
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/jquery.scrolly.min.js"></script>
         <script src="assets/js/browser.min.js"></script>
         <script src="assets/js/breakpoints.min.js"></script>
         <script src="assets/js/util.js"></script>
-        <script src="assets/js/main.js"></script>
+        <script src="assets/js/main.js?v=20260711-carousel"></script>
         <script>
             (function() {
                 var mediumUsername = '@kmes9940211';
+                var mediumProfileUrl = 'https://medium.com/' + mediumUsername;
                 var rssUrl = 'https://medium.com/feed/' + mediumUsername;
                 var apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
                 var postsContainer = document.getElementById('medium-posts');
+                var requestController = window.AbortController ? new AbortController() : null;
+                var requestTimeout = window.setTimeout(function() {
+                    if (requestController) {
+                        requestController.abort();
+                    }
+                }, 10000);
 
                 function renderMessage(message) {
                     var paragraph = document.createElement('p');
                     paragraph.textContent = message;
+                    paragraph.appendChild(document.createTextNode(' '));
+
+                    var profileLink = createExternalLink(mediumProfileUrl);
+                    profileLink.textContent = '前往 Medium';
+                    paragraph.appendChild(profileLink);
+
+                    postsContainer.classList.remove('posts-ready');
                     postsContainer.replaceChildren(paragraph);
+                    postsContainer.setAttribute('aria-busy', 'false');
                 }
 
                 function getFirstImage(item) {
@@ -76,9 +124,35 @@
                     return summary || '點擊閱讀完整文章。';
                 }
 
+                function getSafeUrl(url) {
+                    try {
+                        var parsedUrl = new URL(url, mediumProfileUrl);
+                        return parsedUrl.protocol === 'https:' ? parsedUrl.href : mediumProfileUrl;
+                    } catch (error) {
+                        return mediumProfileUrl;
+                    }
+                }
+
+                function getPublishedDate(value) {
+                    var date = value ? new Date(value) : null;
+
+                    if (!date || Number.isNaN(date.getTime())) {
+                        return null;
+                    }
+
+                    return {
+                        datetime: date.toISOString(),
+                        label: new Intl.DateTimeFormat('zh-TW', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        }).format(date)
+                    };
+                }
+
                 function createExternalLink(url, className) {
                     var link = document.createElement('a');
-                    link.href = url;
+                    link.href = getSafeUrl(url);
                     link.target = '_blank';
                     link.rel = 'noopener noreferrer';
 
@@ -89,7 +163,7 @@
                     return link;
                 }
 
-                fetch(apiUrl)
+                fetch(apiUrl, requestController ? { signal: requestController.signal } : {})
                     .then(function(response) {
                         if (!response.ok) {
                             throw new Error('Medium request failed');
@@ -108,16 +182,26 @@
                         data.items.slice(0, 6).forEach(function(item) {
                             var article = document.createElement('article');
                             article.className = 'post-card';
+                            var itemUrl = getSafeUrl(item.link);
 
                             var title = document.createElement('h3');
-                            var titleLink = createExternalLink(item.link);
+                            var titleLink = createExternalLink(itemUrl);
                             titleLink.textContent = item.title || '未命名文章';
                             title.appendChild(titleLink);
                             article.appendChild(title);
 
+                            var publishedDate = getPublishedDate(item.pubDate);
+                            if (publishedDate) {
+                                var time = document.createElement('time');
+                                time.className = 'post-meta';
+                                time.dateTime = publishedDate.datetime;
+                                time.textContent = publishedDate.label;
+                                article.appendChild(time);
+                            }
+
                             var imageUrl = getFirstImage(item);
                             if (imageUrl) {
-                                var imageLink = createExternalLink(item.link, 'image fit');
+                                var imageLink = createExternalLink(itemUrl, 'image fit');
                                 var image = document.createElement('img');
                                 image.src = imageUrl;
                                 image.alt = item.title || 'Medium 文章首圖';
@@ -135,7 +219,7 @@
                             actions.className = 'actions';
 
                             var actionItem = document.createElement('li');
-                            var readMore = createExternalLink(item.link, 'button primary');
+                            var readMore = createExternalLink(itemUrl, 'button primary');
                             readMore.textContent = '閱讀全文';
                             actionItem.appendChild(readMore);
                             actions.appendChild(actionItem);
@@ -144,10 +228,15 @@
                             fragment.appendChild(article);
                         });
 
+                        postsContainer.classList.add('posts-ready');
                         postsContainer.replaceChildren(fragment);
+                        postsContainer.setAttribute('aria-busy', 'false');
                     })
-                    .catch(function() {
-                        renderMessage('載入文章時發生錯誤，請稍後再試。');
+                    .catch(function(error) {
+                        renderMessage(error.name === 'AbortError' ? '文章載入時間較長。' : '載入文章時發生錯誤。');
+                    })
+                    .finally(function() {
+                        window.clearTimeout(requestTimeout);
                     });
             })();
         </script>

@@ -710,45 +710,6 @@
 
 		}
 
-		// Keep the timeline line and its heading connectors stable while content loads.
-		#wrapper {
-			&:before {
-				transition: none;
-			}
-
-			> section.intro,
-			> section.page-intro {
-				opacity: 1;
-
-				> header {
-					&,
-					> * {
-						opacity: 1 !important;
-						transform: none !important;
-					}
-				}
-			}
-
-			body.is-preload & {
-				&:before {
-					opacity: 1;
-				}
-
-				> section.intro,
-				> section.page-intro {
-					opacity: 1;
-
-					> header {
-						&,
-						> * {
-							opacity: 1 !important;
-							transform: none !important;
-						}
-					}
-				}
-			}
-		}
-
 	// IE.
 		body.is-ie {
 			#wrapper {

@@ -129,19 +129,29 @@
 				width: 4rem;
 			}
 
-			&:after {
+			.modal-close {
+				appearance: none;
+				border: 0;
+				border-radius: 50%;
 				background-image: svg-url('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64px" height="64px" viewBox="0 0 64 64" zoomAndPan="disable"><style>line {stroke: #{_palette(fg-bold)};stroke-width: 2px;}</style><line x1="20" y1="20" x2="44" y2="44" /><line x1="20" y1="44" x2="44" y2="20" /></svg>');
 				background-position: center;
 				background-repeat: no-repeat;
 				background-size: 3rem;
-				content: '';
+				background-color: rgba(255, 255, 255, 0.9);
 				cursor: pointer;
 				display: block;
 				height: 4rem;
+				padding: 0;
 				position: absolute;
 				right: 0.5rem;
 				top: 0.5rem;
 				width: 4rem;
+				z-index: 2;
+
+				&:focus-visible {
+					box-shadow: 0 0 0 3px _palette(accent);
+					outline: 0;
+				}
 			}
 
 			.inner {
@@ -280,7 +290,7 @@
 				a.landscape {
 					width: calc(50% - #{_size(gallery-gutter)});
 
-					&:last-child:nth-child(odd) {
+					&:last-of-type:nth-of-type(odd) {
 						width: 100%;
 					}
 
