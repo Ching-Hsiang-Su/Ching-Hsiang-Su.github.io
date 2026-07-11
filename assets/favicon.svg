@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ChingHsiang Photography">
-  <rect width="64" height="64" rx="12" fill="#111111"/>
-  <path d="M0 48 48 0h16v16L16 64H0Z" fill="#43d9b8"/>
-  <path d="M18 22c-5.7 0-10 4.1-10 10s4.3 10 10 10c3.8 0 6.8-1.7 8.6-4.4l-4.2-2.8A5.1 5.1 0 0 1 18 37c-2.8 0-4.8-2.1-4.8-5s2-5 4.8-5c1.9 0 3.4.8 4.4 2.2l4.2-2.8A10.2 10.2 0 0 0 18 22Zm13 0v20h5.2v-7.5h7.6V42H49V22h-5.2v7.4h-7.6V22Z" fill="#ffffff"/>
-</svg>

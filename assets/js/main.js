@@ -46,6 +46,7 @@
 
 			var $gallery = $(this),
 				category = $gallery.data('gallery-category'),
+				thumbnailDirectory = $gallery.data('gallery-thumbnail-directory'),
 				start = parseInt($gallery.data('gallery-start'), 10) || 1,
 				count = parseInt($gallery.data('gallery-count'), 10),
 				label = $gallery.data('gallery-label') || '攝影作品';
@@ -56,18 +57,25 @@
 			for (var offset = 0; offset < count; offset++) {
 				var index = start + offset,
 					number = ('0' + index).slice(-2),
-					source = 'images/portfolio/' + category + '/' + category + '-' + number + '.webp';
+					source = 'images/portfolio/' + category + '/' + category + '-' + number + '.webp',
+					thumbnailSource = thumbnailDirectory
+						? 'images/portfolio/' + category + '/' + thumbnailDirectory + '/' + category + '-' + number + '.webp'
+						: source,
+					$image = $('<img />', {
+						src: thumbnailSource,
+						alt: label + '第' + (offset + 1) + '張',
+						loading: 'lazy',
+						decoding: 'async'
+					});
+
+				if (thumbnailDirectory)
+					$image.attr('fetchpriority', 'low');
 
 				$('<a />', {
 					href: source,
 					'aria-label': '放大查看' + label + '第' + (offset + 1) + '張'
 				})
-					.append($('<img />', {
-						src: source,
-						alt: label + '第' + (offset + 1) + '張',
-						loading: 'lazy',
-						decoding: 'async'
-					}))
+					.append($image)
 					.appendTo($gallery);
 			}
 
