@@ -131,15 +131,26 @@
 		gap: 0.5rem;
 		list-style: none;
 		padding-left: 0;
+	}
 
-		li {
-			background: _palette(border-bg);
-			border-radius: 999px;
-			font-family: _font(family-heading);
-			font-size: 0.7rem;
-			letter-spacing: 0.08em;
-			padding: 0.35rem 0.65rem;
-		}
+	ul.hero-services li,
+	ul.profile-services a {
+		background: _palette(border-bg);
+		border-bottom: 0;
+		border-radius: 999px;
+		display: block;
+		font-family: _font(family-heading);
+		font-size: 0.7rem;
+		letter-spacing: 0.08em;
+		padding: 0.35rem 0.65rem;
+		transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+	}
+
+	ul.profile-services a:hover,
+	ul.profile-services a:focus-visible {
+		background: _palette(accent);
+		color: _palette(fg-bold);
+		transform: translateY(-2px);
 	}
 
 	ul.hero-services {
@@ -753,12 +764,18 @@
 
 		code,
 		ul.hero-services li,
-		ul.profile-services li,
+		ul.profile-services a,
 		.portfolio-note,
 		.skeleton-title,
 		.skeleton-image,
 		.skeleton-line {
 			background: rgba(255, 255, 255, 0.08);
+		}
+
+		ul.profile-services a:hover,
+		ul.profile-services a:focus-visible {
+			background: #43d9b8;
+			color: #08110f;
 		}
 
 		.gallery.portfolio-gallery > a {
@@ -771,6 +788,14 @@
 		.post-card {
 			background: #1c2024;
 			box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.28);
+		}
+
+		.profile-stats dt {
+			color: #ffffff;
+		}
+
+		.profile-stats dd {
+			color: rgba(242, 244, 243, 0.78);
 		}
 
 		.portfolio-cover figcaption,

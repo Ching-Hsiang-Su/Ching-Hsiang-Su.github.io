@@ -4194,13 +4194,23 @@ input, select, textarea {
 	}
 
 		ul.hero-services li,
-		ul.profile-services li {
+		ul.profile-services a {
 			background: rgba(144, 144, 144, 0.1);
+			border-bottom: 0;
 			border-radius: 999px;
+			display: block;
 			font-family: "Raleway", Helvetica, sans-serif;
 			font-size: 0.7rem;
 			letter-spacing: 0.08em;
 			padding: 0.35rem 0.65rem;
+			transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+		}
+
+		ul.profile-services a:hover,
+		ul.profile-services a:focus-visible {
+			background: #43d9b8;
+			color: #000000;
+			transform: translateY(-2px);
 		}
 
 	ul.hero-services {
@@ -4846,12 +4856,18 @@ input, select, textarea {
 
 	html[data-theme="dark"] code,
 	html[data-theme="dark"] ul.hero-services li,
-	html[data-theme="dark"] ul.profile-services li,
+	html[data-theme="dark"] ul.profile-services a,
 	html[data-theme="dark"] .portfolio-note,
 	html[data-theme="dark"] .skeleton-title,
 	html[data-theme="dark"] .skeleton-image,
 	html[data-theme="dark"] .skeleton-line {
 		background: rgba(255, 255, 255, 0.08);
+	}
+
+	html[data-theme="dark"] ul.profile-services a:hover,
+	html[data-theme="dark"] ul.profile-services a:focus-visible {
+		background: #43d9b8;
+		color: #08110f;
 	}
 
 	html[data-theme="dark"] .gallery.portfolio-gallery > a {
@@ -4864,6 +4880,14 @@ input, select, textarea {
 	html[data-theme="dark"] .post-card {
 		background: #1c2024;
 		box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.28);
+	}
+
+	html[data-theme="dark"] .profile-stats dt {
+		color: #ffffff;
+	}
+
+	html[data-theme="dark"] .profile-stats dd {
+		color: rgba(242, 244, 243, 0.78);
 	}
 
 	html[data-theme="dark"] .portfolio-cover figcaption,
