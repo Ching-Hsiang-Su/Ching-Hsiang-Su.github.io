@@ -4193,7 +4193,7 @@ input, select, textarea {
 		padding-left: 0;
 	}
 
-		ul.hero-services li,
+		ul.hero-services a,
 		ul.profile-services a {
 			background: rgba(144, 144, 144, 0.1);
 			border-bottom: 0;
@@ -4206,6 +4206,8 @@ input, select, textarea {
 			transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
 		}
 
+		ul.hero-services a:hover,
+		ul.hero-services a:focus-visible,
 		ul.profile-services a:hover,
 		ul.profile-services a:focus-visible {
 			background: #43d9b8;
@@ -4254,6 +4256,14 @@ input, select, textarea {
 		border-top: solid 1px rgba(144, 144, 144, 0.25);
 		margin-bottom: 4rem;
 		padding-top: 1.5rem;
+	}
+
+	@media screen and (min-width: 737px) {
+
+		body.event-portfolio-page #wrapper section.portfolio-group {
+			margin: 2.25rem 0 0 0;
+		}
+
 	}
 
 	#wrapper section.portfolio-group {
@@ -4400,6 +4410,39 @@ input, select, textarea {
 		.portfolio-group {
 			margin-bottom: 3rem;
 		}
+
+		.gallery .modal {
+			background-color: #ffffff;
+			box-sizing: border-box;
+			height: 100%;
+			height: 100dvh;
+			overflow: hidden;
+			padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+			width: 100%;
+		}
+
+			.gallery .modal .inner {
+				align-items: center;
+				display: flex;
+				height: 100%;
+				justify-content: center;
+				min-height: 0;
+				min-width: 0;
+				width: 100%;
+			}
+
+				.gallery .modal .inner img {
+					height: auto;
+					max-height: 100%;
+					max-width: 100%;
+					object-fit: contain;
+					width: auto;
+				}
+
+			.gallery .modal .modal-close {
+				right: max(0.75rem, env(safe-area-inset-right));
+				top: max(0.75rem, env(safe-area-inset-top));
+			}
 
 		.gallery.portfolio-carousel-track > a {
 			flex-basis: 100%;
@@ -4855,7 +4898,7 @@ input, select, textarea {
 	}
 
 	html[data-theme="dark"] code,
-	html[data-theme="dark"] ul.hero-services li,
+	html[data-theme="dark"] ul.hero-services a,
 	html[data-theme="dark"] ul.profile-services a,
 	html[data-theme="dark"] .portfolio-note,
 	html[data-theme="dark"] .skeleton-title,
@@ -4864,6 +4907,8 @@ input, select, textarea {
 		background: rgba(255, 255, 255, 0.08);
 	}
 
+	html[data-theme="dark"] ul.hero-services a:hover,
+	html[data-theme="dark"] ul.hero-services a:focus-visible,
 	html[data-theme="dark"] ul.profile-services a:hover,
 	html[data-theme="dark"] ul.profile-services a:focus-visible {
 		background: #43d9b8;
@@ -4929,7 +4974,7 @@ input, select, textarea {
 	}
 
 	html[data-theme="dark"] .gallery .modal {
-		background-color: rgba(17, 19, 21, 0.94);
+		background-color: #111315;
 	}
 
 		html[data-theme="dark"] .gallery .modal:before {

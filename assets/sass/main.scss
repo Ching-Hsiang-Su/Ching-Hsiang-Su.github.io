@@ -133,7 +133,7 @@
 		padding-left: 0;
 	}
 
-	ul.hero-services li,
+	ul.hero-services a,
 	ul.profile-services a {
 		background: _palette(border-bg);
 		border-bottom: 0;
@@ -146,6 +146,8 @@
 		transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
 	}
 
+	ul.hero-services a:hover,
+	ul.hero-services a:focus-visible,
 	ul.profile-services a:hover,
 	ul.profile-services a:focus-visible {
 		background: _palette(accent);
@@ -193,6 +195,47 @@
 
 		@include breakpoint('<=small') {
 			margin-bottom: 3rem;
+		}
+	}
+
+	@media screen and (min-width: 737px) {
+		body.event-portfolio-page #wrapper section.portfolio-group {
+			margin: 2.25rem 0 0 0;
+		}
+	}
+
+	@include breakpoint('<=small') {
+		.gallery .modal {
+			background-color: #ffffff;
+			box-sizing: border-box;
+			height: 100%;
+			height: 100dvh;
+			overflow: hidden;
+			padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+			width: 100%;
+
+			.inner {
+				align-items: center;
+				display: flex;
+				height: 100%;
+				justify-content: center;
+				min-height: 0;
+				min-width: 0;
+				width: 100%;
+
+				img {
+					height: auto;
+					max-height: 100%;
+					max-width: 100%;
+					object-fit: contain;
+					width: auto;
+				}
+			}
+
+			.modal-close {
+				right: max(0.75rem, env(safe-area-inset-right));
+				top: max(0.75rem, env(safe-area-inset-top));
+			}
 		}
 	}
 
@@ -763,7 +806,7 @@
 		}
 
 		code,
-		ul.hero-services li,
+		ul.hero-services a,
 		ul.profile-services a,
 		.portfolio-note,
 		.skeleton-title,
@@ -772,6 +815,8 @@
 			background: rgba(255, 255, 255, 0.08);
 		}
 
+		ul.hero-services a:hover,
+		ul.hero-services a:focus-visible,
 		ul.profile-services a:hover,
 		ul.profile-services a:focus-visible {
 			background: #43d9b8;
@@ -837,7 +882,7 @@
 		}
 
 		.gallery .modal {
-			background-color: rgba(17, 19, 21, 0.94);
+			background-color: #111315;
 
 			&:before {
 				filter: invert(1);
