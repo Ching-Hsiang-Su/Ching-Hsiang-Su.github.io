@@ -201,150 +201,114 @@
 		}
 
 	// Gallery.
-		$('.gallery')
-			.on('click', 'a', function(event) {
+		var $galleryModalHost = $('<div class="gallery gallery-lightbox-host"></div>').appendTo($body),
+			$galleryModal = $('<div class="modal" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true" aria-label="作品預覽"><button type="button" class="modal-close" aria-label="關閉作品預覽"></button><div class="inner"><img src="" alt="" /></div></div>').appendTo($galleryModalHost);
 
-					var $a = $(this),
-						$gallery = $a.parents('.gallery'),
-						$modal = $gallery.children('.modal'),
-						$modalImg = $modal.find('img'),
-						$modalClose = $modal.find('.modal-close'),
-						href = $a.attr('href'),
-						alt = $a.find('img').attr('alt') || '';
+		$('.gallery').on('click', 'a', function(event) {
 
-				// Not an image? Bail.
-					if (!href.match(/\.(jpe?g|gif|png|webp)(\?.*)?$/i))
-						return;
+			var $a = $(this),
+				$modalImg = $galleryModal.find('img'),
+				$modalClose = $galleryModal.find('.modal-close'),
+				href = $a.attr('href'),
+				alt = $a.find('img').attr('alt') || '';
 
-				// Prevent default.
-					event.preventDefault();
-					event.stopPropagation();
+			if (!href.match(/\.(jpe?g|gif|png|webp)(\?.*)?$/i))
+				return;
 
-				// Locked? Bail.
-					if ($modal[0]._locked)
-						return;
+			event.preventDefault();
+			event.stopPropagation();
 
-				// Lock.
-					$modal[0]._locked = true;
-					$modal[0]._returnFocus = $a[0];
+			if ($galleryModal[0]._locked)
+				return;
 
-				// Set src.
-					$modalImg
-						.attr('src', href)
-						.attr('alt', alt);
+			$galleryModal[0]._locked = true;
+			$galleryModal[0]._returnFocus = $a[0];
 
-				// Set visible.
-						$modal.addClass('visible');
-						$modal.attr('aria-hidden', 'false');
-						$body.addClass('is-modal-open');
+			$modalImg
+				.attr('src', href)
+				.attr('alt', alt);
 
-					// Focus.
-						window.setTimeout(function() {
-							$modalClose[0].focus();
-						}, 100);
+			$galleryModal
+				.addClass('visible')
+				.attr('aria-hidden', 'false');
+			$body.addClass('is-modal-open');
 
-				// Delay.
-					setTimeout(function() {
+			window.setTimeout(function() {
+				$modalClose[0].focus();
+			}, 100);
 
-						// Unlock.
-							$modal[0]._locked = false;
+			setTimeout(function() {
+				$galleryModal[0]._locked = false;
+			}, 600);
 
-					}, 600);
+		});
 
-			})
-			.on('click', '.modal', function(event) {
+		$galleryModal
+			.on('click', function(event) {
 
 				var $modal = $(this),
 					$modalImg = $modal.find('img');
 
-				// Locked? Bail.
-					if ($modal[0]._locked)
-						return;
+				if ($modal[0]._locked || !$modal.hasClass('visible'))
+					return;
 
-				// Already hidden? Bail.
-					if (!$modal.hasClass('visible'))
-						return;
+				event.stopPropagation();
+				$modal[0]._locked = true;
+				$modal.removeClass('loaded');
 
-				// Stop propagation.
-					event.stopPropagation();
+				setTimeout(function() {
 
-				// Lock.
-					$modal[0]._locked = true;
-
-				// Clear visible, loaded.
 					$modal
-						.removeClass('loaded');
+						.removeClass('visible')
+						.attr('aria-hidden', 'true');
+					$body.removeClass('is-modal-open');
 
-				// Delay.
 					setTimeout(function() {
 
-								$modal
-									.removeClass('visible')
-									.attr('aria-hidden', 'true');
-								$body.removeClass('is-modal-open');
+						$modalImg
+							.attr('src', '')
+							.attr('alt', '');
 
-						setTimeout(function() {
+						$modal[0]._locked = false;
 
-							// Clear src.
-								$modalImg
-									.attr('src', '')
-									.attr('alt', '');
+						if ($modal[0]._returnFocus)
+							$($modal[0]._returnFocus).trigger('focus');
+						else
+							$body.trigger('focus');
 
-							// Unlock.
-								$modal[0]._locked = false;
+						$modal[0]._returnFocus = null;
 
-							// Focus.
-								if ($modal[0]._returnFocus)
-									$($modal[0]._returnFocus).trigger('focus');
-								else
-									$body.trigger('focus');
+					}, 475);
 
-								$modal[0]._returnFocus = null;
-
-						}, 475);
-
-					}, 125);
+				}, 125);
 
 			})
-			.on('keydown', '.modal', function(event) {
+			.on('keydown', function(event) {
 
-				var $modal = $(this);
+				if (event.keyCode == 27)
+					$galleryModal.trigger('click');
 
-					// Escape? Hide modal.
-						if (event.keyCode == 27)
-							$modal.trigger('click');
-
-					// Keep keyboard focus inside the preview.
-						if (event.keyCode == 9) {
-							event.preventDefault();
-							$modal.find('.modal-close')[0].focus();
-						}
+				if (event.keyCode == 9) {
+					event.preventDefault();
+					$galleryModal.find('.modal-close')[0].focus();
+				}
 
 			})
-			.on('mouseup mousedown mousemove', '.modal', function(event) {
-
-				// Stop propagation.
-					event.stopPropagation();
-
+			.on('mouseup mousedown mousemove', function(event) {
+				event.stopPropagation();
 			})
-				.prepend('<div class="modal" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true" aria-label="作品預覽"><button type="button" class="modal-close" aria-label="關閉作品預覽"></button><div class="inner"><img src="" alt="" /></div></div>')
-				.find('img')
-					.on('load', function(event) {
+			.find('img')
+				.on('load', function() {
 
-						var $modalImg = $(this),
-							$modal = $modalImg.parents('.modal');
+					setTimeout(function() {
 
-						setTimeout(function() {
+						if (!$galleryModal.hasClass('visible'))
+							return;
 
-							// No longer visible? Bail.
-								if (!$modal.hasClass('visible'))
-									return;
+						$galleryModal.addClass('loaded');
 
-							// Set loaded.
-								$modal.addClass('loaded');
+					}, 275);
 
-						}, 275);
-
-					});
+				});
 
 })(jQuery);

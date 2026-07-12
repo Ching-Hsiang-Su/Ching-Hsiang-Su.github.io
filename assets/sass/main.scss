@@ -343,6 +343,15 @@
 		min-width: 0;
 	}
 
+	.gallery.gallery-lightbox-host {
+		display: block;
+		height: 0;
+		margin: 0;
+		overflow: visible;
+		padding: 0;
+		width: 0;
+	}
+
 	.gallery.portfolio-carousel-track {
 		display: flex;
 		flex-wrap: nowrap;
