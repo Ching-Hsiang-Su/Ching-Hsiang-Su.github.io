@@ -308,6 +308,37 @@
 		}
 	}
 
+	.landscape-portfolio-page {
+		.gallery.portfolio-gallery {
+			align-items: start;
+
+			> a,
+			&[data-gallery-count='1'] > a {
+				align-self: start;
+				aspect-ratio: auto;
+				background-size: contain !important;
+			}
+
+			> a img {
+				height: auto;
+				min-height: 0;
+				object-fit: contain;
+				width: 100%;
+			}
+		}
+
+		.portfolio-cover .gallery > a {
+			background-size: contain !important;
+
+			img {
+				height: auto;
+				min-height: 0;
+				object-fit: contain;
+				width: 100%;
+			}
+		}
+	}
+
 	.portfolio-carousel {
 		min-width: 0;
 	}

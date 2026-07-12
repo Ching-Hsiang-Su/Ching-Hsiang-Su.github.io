@@ -42,6 +42,19 @@
 			});
 
 	// Portfolio galleries.
+		var portfolioImageDimensions = {
+			landscape: {
+				1: [1280, 468],
+				2: [1048, 1600],
+				3: [1046, 1600],
+				4: [882, 1350],
+				5: [1280, 864],
+				6: [1269, 1600],
+				7: [1280, 848],
+				8: [1280, 842]
+			}
+		};
+
 		$('.portfolio-gallery[data-gallery-category]').each(function() {
 
 			var $gallery = $(this),
@@ -58,6 +71,7 @@
 				var index = start + offset,
 					number = ('0' + index).slice(-2),
 					source = 'images/portfolio/' + category + '/' + category + '-' + number + '.webp',
+					dimensions = portfolioImageDimensions[category] && portfolioImageDimensions[category][index],
 					thumbnailSource = thumbnailDirectory
 						? 'images/portfolio/' + category + '/' + thumbnailDirectory + '/' + category + '-' + number + '.webp'
 						: source,
@@ -70,6 +84,12 @@
 
 				if (thumbnailDirectory)
 					$image.attr('fetchpriority', 'low');
+
+				if (dimensions)
+					$image.attr({
+						width: dimensions[0],
+						height: dimensions[1]
+					});
 
 				$('<a />', {
 					href: source,

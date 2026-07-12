@@ -4327,6 +4327,29 @@ input, select, textarea {
 				transform: scale(1.035);
 			}
 
+	.landscape-portfolio-page .gallery.portfolio-gallery {
+		align-items: start;
+	}
+
+	.landscape-portfolio-page .gallery.portfolio-gallery > a,
+	.landscape-portfolio-page .gallery.portfolio-gallery[data-gallery-count="1"] > a {
+		align-self: start;
+		aspect-ratio: auto;
+		background-size: contain !important;
+	}
+
+	.landscape-portfolio-page .gallery.portfolio-gallery > a img,
+	.landscape-portfolio-page .portfolio-cover .gallery > a img {
+		height: auto;
+		min-height: 0;
+		object-fit: contain;
+		width: 100%;
+	}
+
+	.landscape-portfolio-page .portfolio-cover .gallery > a {
+		background-size: contain !important;
+	}
+
 	.portfolio-carousel {
 		min-width: 0;
 	}
