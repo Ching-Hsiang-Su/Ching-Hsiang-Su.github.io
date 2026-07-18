@@ -281,6 +281,10 @@
 		#wrapper section.gallery-overview {
 			grid-template-columns: 34vw 66vw;
 
+			> header:before {
+				left: calc(34vw - 5rem);
+			}
+
 			> .content {
 				max-width: 72rem;
 				padding-right: 5rem;
@@ -300,5 +304,11 @@
 					}
 				}
 			}
+		}
+	}
+
+	@media screen and (min-width: 1153px) and (max-width: 1280px) {
+		#wrapper section.gallery-overview > header:before {
+			left: calc(34vw - 4rem);
 		}
 	}

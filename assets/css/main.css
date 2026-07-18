@@ -3300,6 +3300,10 @@ input, select, textarea {
 			grid-template-columns: 34vw 66vw;
 		}
 
+			#wrapper section.gallery-overview > header:before {
+				left: calc(34vw - 5rem);
+			}
+
 			#wrapper section.gallery-overview > .content {
 				max-width: 72rem;
 				padding-right: 5rem;
@@ -3317,6 +3321,14 @@ input, select, textarea {
 					height: clamp(15rem, 18vw, 22rem);
 					min-height: 15rem;
 				}
+
+	}
+
+	@media screen and (min-width: 1153px) and (max-width: 1280px) {
+
+		#wrapper section.gallery-overview > header:before {
+			left: calc(34vw - 4rem);
+		}
 
 	}
 
@@ -4885,6 +4897,10 @@ input, select, textarea {
 
 	html[data-theme="dark"] a:focus-visible {
 		outline-color: #43d9b8;
+	}
+
+	html[data-theme="dark"] a.arrow:before {
+		filter: invert(1);
 	}
 
 	html[data-theme="dark"] .site-nav {

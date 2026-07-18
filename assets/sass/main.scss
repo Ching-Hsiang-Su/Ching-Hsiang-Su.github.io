@@ -803,6 +803,10 @@
 			outline-color: #43d9b8;
 		}
 
+		a.arrow:before {
+			filter: invert(1);
+		}
+
 		.site-nav {
 			background: rgba(17, 19, 21, 0.94);
 			border-bottom-color: rgba(255, 255, 255, 0.14);
