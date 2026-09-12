@@ -12,7 +12,7 @@
     }
 
     function systemTheme() {
-        return mediaQuery.matches ? 'dark' : 'light';
+        return 'light';
     }
 
     function validTheme(theme) {
@@ -35,7 +35,7 @@
 
         var themeColor = document.querySelector('meta[name="theme-color"]');
         if (themeColor) {
-            themeColor.setAttribute('content', isDark ? '#111315' : '#43d9b8');
+            themeColor.setAttribute('content', isDark ? '#211f1b' : '#f7f5ef');
         }
     }
 
