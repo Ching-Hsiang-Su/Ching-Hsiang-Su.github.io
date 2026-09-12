@@ -264,6 +264,18 @@ html .gallery a:focus-visible { box-shadow: 0 0 0 3px var(--accent); }
   html .site-footer { grid-template-columns: 1fr; gap: 1.5rem; }
   html #wrapper { padding-bottom: 3rem; }
 }
+@media (max-width: 480px) {
+  html .site-nav, html[data-theme='dark'] .site-nav {
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: .6rem;
+    justify-content: flex-start;
+    padding: .55rem 4%;
+  }
+  .site-nav a { flex: 0 0 auto; font-size: .68rem; white-space: nowrap; }
+  .site-nav .nav-en { display: none; }
+  html .theme-toggle, html[data-theme='dark'] .theme-toggle { flex: 0 0 78px; margin-left: auto; }
+}
 /* Do not hide the portfolio while waiting for external assets. */
 html body.is-preload #wrapper > section { opacity: 1; }
 html body.is-preload #wrapper > section > header,
