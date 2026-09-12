@@ -27,9 +27,13 @@ p { margin-bottom: 1.6rem; }
 a { transition: color .2s ease, border-color .2s ease; }
 html a:hover { color: var(--accent); }
 html a:focus-visible, html button:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
-html .site-nav, html[data-theme='dark'] .site-nav {
-  background: var(--paper); border-bottom: 1px solid var(--rule); backdrop-filter: none;
+html .site-nav {
+  background: #efece4; border-bottom: 1px solid #ddd7cb; backdrop-filter: none;
   min-height: 82px; padding: 18px 5vw; gap: 2.7rem; justify-content: flex-end;
+}
+html[data-theme='dark'] .site-nav {
+  background: #2b2822;
+  border-bottom-color: #403b33;
 }
 .site-nav a { font: 400 .76rem/1.5 var(--sans); letter-spacing: .055em; text-transform: none; padding: .5rem 0; }
 .site-nav a:first-child { margin-right: auto; }
