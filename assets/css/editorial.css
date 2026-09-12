@@ -272,8 +272,17 @@ html .gallery a:focus-visible { box-shadow: 0 0 0 3px var(--accent); }
     justify-content: flex-start;
     padding: .55rem 4%;
   }
-  .site-nav a { flex: 0 0 auto; font-size: .68rem; white-space: nowrap; }
-  .site-nav .nav-en { display: none; }
+  .site-nav a {
+    align-items: center;
+    display: inline-flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    font-size: .62rem;
+    gap: .05rem;
+    line-height: 1.25;
+    white-space: nowrap;
+  }
+  .site-nav .nav-en, .site-nav .nav-zh { display: block; }
   html .theme-toggle, html[data-theme='dark'] .theme-toggle { flex: 0 0 78px; margin-left: auto; }
 }
 /* Do not hide the portfolio while waiting for external assets. */
