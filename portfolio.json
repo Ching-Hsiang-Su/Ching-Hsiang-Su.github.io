@@ -1,0 +1,253 @@
+{
+  "version": 1,
+  "categories": {
+    "art": {
+      "label": "藝文攝影",
+      "page": "gallery-art.html",
+      "imageDirectory": "images/portfolio/art",
+      "imagePrefix": "art",
+      "extension": "webp",
+      "layout": "grid",
+      "projects": [
+        {
+          "id": "timor-contemporary-dance",
+          "year": "2021",
+          "type": "表演藝術紀錄",
+          "title": "蒂摩爾當代肢體解碼",
+          "start": 1,
+          "count": 3
+        },
+        {
+          "id": "autumn-romance-concert",
+          "year": "2020",
+          "type": "音樂會紀錄",
+          "title": "秋天的隨性與浪漫",
+          "start": 4,
+          "count": 3
+        },
+        {
+          "id": "wind-over-sizihwan",
+          "year": "2020",
+          "type": "藝文活動紀錄",
+          "title": "御風西灣",
+          "start": 7,
+          "count": 3
+        },
+        {
+          "id": "beethoven-32-sonatas",
+          "year": "2020",
+          "type": "音樂會紀錄",
+          "title": "《蛻變》音樂巨匠的一生・貝多芬全套 32 首奏鳴曲音樂會",
+          "galleryLabel": "《蛻變》貝多芬鋼琴奏鳴曲音樂會",
+          "start": 10,
+          "count": 2
+        }
+      ]
+    },
+    "event": {
+      "label": "活動紀錄",
+      "page": "gallery-event.html",
+      "imageDirectory": "images/portfolio/event",
+      "imagePrefix": "event",
+      "thumbnailDirectory": "thumbs",
+      "extension": "webp",
+      "layout": "carousel",
+      "projects": [
+        {
+          "id": "national-high-school-english-speech-contest",
+          "year": "2022",
+          "type": "競賽紀錄",
+          "title": "全國高中生英語演講比賽",
+          "start": 1,
+          "count": 7
+        },
+        {
+          "id": "ait-techcamp-visit",
+          "year": "2022",
+          "type": "國際交流",
+          "title": "AIT TechCamp 訪查",
+          "start": 8,
+          "count": 8
+        },
+        {
+          "id": "nsysu-exchange-student-farewell",
+          "year": "2022",
+          "type": "校園活動",
+          "title": "中山大學交換生歡送會",
+          "start": 16,
+          "count": 8
+        },
+        {
+          "id": "foreign-student-singing-contest",
+          "year": "2022",
+          "type": "競賽紀錄",
+          "title": "外國人華、台語歌唱比賽",
+          "start": 24,
+          "count": 12
+        },
+        {
+          "id": "taiwan-us-bilingual-education-seminar",
+          "year": "2021",
+          "type": "研討會紀錄",
+          "title": "台美雙語教育研討會",
+          "start": 36,
+          "count": 5
+        },
+        {
+          "id": "nsysu-anniversary-sports-day",
+          "year": "2021",
+          "type": "校園活動",
+          "title": "中山大學校慶運動會",
+          "start": 41,
+          "count": 5
+        },
+        {
+          "id": "nsysu-kmu-softball-cup",
+          "year": "2020",
+          "type": "運動賽事",
+          "title": "中山高醫攻頂盃壘球賽",
+          "start": 46,
+          "count": 5
+        },
+        {
+          "id": "nsysu-management-alumni-homecoming",
+          "year": "2021",
+          "type": "典禮紀錄",
+          "title": "中山大學管理學院校友回娘家暨傑出校友頒獎典禮",
+          "start": 51,
+          "count": 6
+        }
+      ]
+    },
+    "food": {
+      "label": "美食棚拍",
+      "page": "gallery-food.html",
+      "imageDirectory": "images/portfolio/food",
+      "imagePrefix": "food",
+      "extension": "webp",
+      "layout": "grid",
+      "projects": [
+        {
+          "id": "fu-tian",
+          "meta": "品牌餐飲攝影",
+          "title": "福田料理 FU-TIAN",
+          "start": 1,
+          "count": 3
+        },
+        {
+          "id": "white-socks-spicy",
+          "meta": "品牌餐飲攝影",
+          "title": "白襪子麻辣嘴",
+          "start": 4,
+          "count": 4
+        },
+        {
+          "id": "grilled-bone-academy",
+          "meta": "品牌餐飲攝影",
+          "title": "烤骨學院",
+          "start": 8,
+          "count": 3
+        }
+      ]
+    },
+    "landscape": {
+      "label": "風景攝影",
+      "page": "gallery-landscape.html",
+      "imageDirectory": "images/portfolio/landscape",
+      "imagePrefix": "landscape",
+      "extension": "webp",
+      "layout": "grid",
+      "dimensions": {
+        "1": [1280, 468],
+        "2": [1048, 1600],
+        "3": [1046, 1600],
+        "4": [882, 1350],
+        "5": [1280, 864],
+        "6": [1269, 1600],
+        "7": [1280, 848],
+        "8": [1280, 842]
+      },
+      "projects": [
+        {
+          "id": "hehuanshan",
+          "meta": "台灣・山岳",
+          "title": "合歡山",
+          "start": 1,
+          "count": 1
+        },
+        {
+          "id": "hehuanshan-main-peak",
+          "meta": "台灣・山岳",
+          "title": "合歡山主峰",
+          "start": 2,
+          "count": 1
+        },
+        {
+          "id": "taroko-eternal-spring-shrine",
+          "meta": "台灣・峽谷",
+          "title": "太魯閣長春祠",
+          "start": 3,
+          "count": 1
+        },
+        {
+          "id": "qigu-sandbar",
+          "meta": "台灣・海岸",
+          "title": "頂頭額沙洲",
+          "start": 4,
+          "count": 1
+        },
+        {
+          "id": "henningsvaer",
+          "meta": "挪威・海港",
+          "title": "亨寧斯韋爾 Henningsvær",
+          "start": 5,
+          "count": 1
+        },
+        {
+          "id": "green-island",
+          "meta": "台灣・離島",
+          "title": "綠島",
+          "start": 6,
+          "count": 1
+        },
+        {
+          "id": "iceland",
+          "meta": "冰島・旅行",
+          "title": "冰島 Iceland",
+          "start": 7,
+          "count": 2
+        }
+      ]
+    },
+    "video": {
+      "label": "動態錄影",
+      "page": "gallery-video.html",
+      "videos": [
+        {
+          "youtubeId": "e8sAmgFSU9A",
+          "title": "Taiwan-Europe Connectivity Scholarship — Surprise Interview on Campus!"
+        },
+        {
+          "youtubeId": "2l6_j8uRJRM",
+          "title": "NSYSU × MOFA Taiwan-Europe Connectivity Scholarship"
+        },
+        {
+          "youtubeId": "27yGBRKfZOM",
+          "title": "European Culture Talks"
+        },
+        {
+          "youtubeId": "hEJ-dWa0sbY",
+          "title": "鹽夏不夜埕前導片"
+        },
+        {
+          "youtubeId": "fEec8M8FS5g",
+          "title": "鹽夏不夜埕快閃舞蹈"
+        },
+        {
+          "youtubeId": "AWyDeMMhLkU",
+          "title": "露營車改裝 DIY"
+        }
+      ]
+    }
+  }
+}

@@ -41,40 +41,56 @@
 				offset: 100
 			});
 
-	// Portfolio galleries.
-		var portfolioImageDimensions = {
-			landscape: {
-				1: [1280, 468],
-				2: [1048, 1600],
-				3: [1046, 1600],
-				4: [882, 1350],
-				5: [1280, 864],
-				6: [1269, 1600],
-				7: [1280, 848],
-				8: [1280, 842]
-			}
+	// Portfolio data.
+		var imagePath = function(category, index, thumbnail) {
+			var number = index < 10 ? '0' + index : String(index),
+				directory = category.imageDirectory;
+
+			if (thumbnail && category.thumbnailDirectory)
+				directory += '/' + category.thumbnailDirectory;
+
+			return directory + '/' + category.imagePrefix + '-' + number + '.' + (category.extension || 'webp');
 		};
 
-		$('.portfolio-gallery[data-gallery-category]').each(function() {
+		var renderProject = function($container, categoryName, category, project) {
+			var start = parseInt(project.start, 10),
+				count = parseInt(project.count, 10),
+				label = project.galleryLabel || project.title || '攝影作品',
+				$group = $('<section />', {
+					'class': 'portfolio-group',
+					id: project.id || undefined
+				}),
+				$meta = $('<span class="portfolio-group-meta"></span>'),
+				$gallery = $('<div class="gallery portfolio-gallery"></div>').attr({
+					'data-gallery-category': categoryName,
+					'data-gallery-layout': category.layout || 'grid',
+					'data-gallery-start': start,
+					'data-gallery-count': count,
+					'data-gallery-label': label
+				});
 
-			var $gallery = $(this),
-				category = $gallery.data('gallery-category'),
-				thumbnailDirectory = $gallery.data('gallery-thumbnail-directory'),
-				start = parseInt($gallery.data('gallery-start'), 10) || 1,
-				count = parseInt($gallery.data('gallery-count'), 10),
-				label = $gallery.data('gallery-label') || '攝影作品';
+			if (project.year) {
+				$meta.append($('<time />', {
+					datetime: project.year,
+					text: project.year
+				}));
 
-			if (!category || !count)
-				return;
+				if (project.type)
+					$meta.append(document.createTextNode('・' + project.type));
+			}
+			else
+				$meta.text(project.meta || project.type || '');
+
+			if ($meta.text())
+				$group.append($meta);
+
+			$group.append($('<h2 class="portfolio-group-title"></h2>').text(project.title));
 
 			for (var offset = 0; offset < count; offset++) {
 				var index = start + offset,
-					number = ('0' + index).slice(-2),
-					source = 'images/portfolio/' + category + '/' + category + '-' + number + '.webp',
-					dimensions = portfolioImageDimensions[category] && portfolioImageDimensions[category][index],
-					thumbnailSource = thumbnailDirectory
-						? 'images/portfolio/' + category + '/' + thumbnailDirectory + '/' + category + '-' + number + '.webp'
-						: source,
+					source = imagePath(category, index, false),
+					thumbnailSource = imagePath(category, index, true),
+					dimensions = category.dimensions && category.dimensions[index],
 					$image = $('<img />', {
 						src: thumbnailSource,
 						alt: label + '第' + (offset + 1) + '張',
@@ -82,7 +98,7 @@
 						decoding: 'async'
 					});
 
-				if (thumbnailDirectory)
+				if (category.thumbnailDirectory)
 					$image.attr('fetchpriority', 'low');
 
 				if (dimensions)
@@ -99,9 +115,58 @@
 					.appendTo($gallery);
 			}
 
-		});
+			$group.append($gallery).appendTo($container);
+		};
 
-		$('.portfolio-gallery[data-gallery-layout="carousel"]').each(function() {
+		var renderPhotoCategories = function(data) {
+			$('.portfolio-groups[data-portfolio-category]').each(function() {
+				var $container = $(this),
+					categoryName = $container.attr('data-portfolio-category'),
+					category = data.categories && data.categories[categoryName];
+
+				$container.empty().attr('aria-busy', 'false');
+
+				if (!category || !category.projects)
+					throw new Error('找不到作品分類：' + categoryName);
+
+				$.each(category.projects, function(_index, project) {
+					renderProject($container, categoryName, category, project);
+				});
+			});
+		};
+
+		var renderVideos = function(data) {
+			$('[data-portfolio-videos]').each(function() {
+				var $container = $(this),
+					category = data.categories && data.categories.video;
+
+				$container.empty().attr('aria-busy', 'false');
+
+				if (!category || !category.videos)
+					throw new Error('找不到影片作品');
+
+				$.each(category.videos, function(_index, video) {
+					var source = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(video.youtubeId),
+						$iframe = $('<iframe />', {
+							src: source,
+							title: video.title,
+							loading: 'lazy',
+							referrerpolicy: 'strict-origin-when-cross-origin',
+							allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
+							allowfullscreen: 'allowfullscreen'
+						}),
+						$frame = $('<div class="video-frame"></div>').append($iframe),
+						$card = $('<article class="video-card"></article>')
+							.append($frame)
+							.append($('<h3></h3>').text(video.title));
+
+					$container.append($card);
+				});
+			});
+		};
+
+		var initializePortfolioCarousels = function() {
+			$('.portfolio-gallery[data-gallery-layout="carousel"]').each(function() {
 
 			var $track = $(this),
 				track = $track[0],
@@ -157,7 +222,41 @@
 			$window.on('resize', updateControls);
 			updateControls();
 
-		});
+			});
+		};
+
+		var $portfolioDataTargets = $('.portfolio-groups[data-portfolio-category], [data-portfolio-videos]');
+
+		if ($portfolioDataTargets.length) {
+			$.ajax({
+				url: 'portfolio.json',
+				dataType: 'json',
+				cache: false
+			})
+				.done(function(data) {
+					try {
+						renderPhotoCategories(data);
+						renderVideos(data);
+						initializePortfolioCarousels();
+					}
+					catch (error) {
+						$portfolioDataTargets
+							.empty()
+							.attr('aria-busy', 'false')
+							.append($('<p class="portfolio-data-error"></p>').text('作品資料暫時無法載入，請稍後再試。'));
+						window.console.error(error);
+					}
+				})
+				.fail(function(_request, _status, error) {
+					$portfolioDataTargets
+						.empty()
+						.attr('aria-busy', 'false')
+						.append($('<p class="portfolio-data-error"></p>').text('作品資料暫時無法載入，請稍後再試。'));
+					window.console.error('portfolio.json 載入失敗：', error);
+				});
+		}
+		else
+			initializePortfolioCarousels();
 
 	// Polyfill: Object fit.
 		if (!browser.canUse('object-fit')) {
@@ -204,7 +303,7 @@
 		var $galleryModalHost = $('<div class="gallery gallery-lightbox-host"></div>').appendTo($body),
 			$galleryModal = $('<div class="modal" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true" aria-label="作品預覽"><button type="button" class="modal-close" aria-label="關閉作品預覽"></button><div class="inner"><img src="" alt="" /></div></div>').appendTo($galleryModalHost);
 
-		$('.gallery').on('click', 'a', function(event) {
+		$body.on('click', '.gallery a', function(event) {
 
 			var $a = $(this),
 				$modalImg = $galleryModal.find('img'),

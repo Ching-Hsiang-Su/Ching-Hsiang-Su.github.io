@@ -17,8 +17,8 @@ html[data-theme='dark'] {
   --wash: #2b2822;
   --accent: #cfb99b;
 }
-html { font-size: 16px; scroll-padding-top: 100px; }
-html body { background: var(--paper); color: var(--ink); }
+html { font-size: 16px; overflow-x: clip; scroll-padding-top: 100px; }
+html body { background: var(--paper); color: var(--ink); overflow-x: clip; }
 body, input, select, textarea { font-family: var(--sans); font-weight: 400; letter-spacing: .025em; line-height: 1.9; }
 html :is(a, strong, b, h1, h2, h3, h4, h5, h6),
 html[data-theme='dark'] :is(a, strong, b, h1, h2, h3, h4, h5, h6) { color: var(--ink); }
@@ -30,6 +30,7 @@ html a:focus-visible, html button:focus-visible { outline: 2px solid var(--accen
 html .site-nav {
   background: #efece4; border-bottom: 1px solid #ddd7cb; backdrop-filter: none;
   min-height: 82px; padding: 18px 5vw; gap: 2.7rem; justify-content: flex-end;
+  position: sticky; top: 0; z-index: 1000;
 }
 html[data-theme='dark'] .site-nav {
   background: #2b2822;
