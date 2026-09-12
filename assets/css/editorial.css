@@ -6,8 +6,8 @@
   --rule: #d9d3c8;
   --wash: #eeeae1;
   --accent: #78634b;
-  --serif: Georgia, 'Times New Roman', 'Songti TC', 'Noto Serif TC', serif;
-  --sans: 'Helvetica Neue', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  --serif: Georgia, 'Times New Roman', 'Noto Serif TC', 'Songti TC', serif;
+  --sans: 'Helvetica Neue', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 }
 html[data-theme='dark'] {
   --paper: #211f1b;
@@ -148,7 +148,7 @@ html .error-code { font-family: var(--serif); font-weight: 400; color: var(--acc
 html .skip-link, html .skip-link:focus { color: var(--paper); background: var(--ink); }
 html .gallery a:focus-visible { box-shadow: 0 0 0 3px var(--accent); }
 @media (max-width: 900px) {
-  html .site-nav { gap: 1.5rem; }
+  html .site-nav, html[data-theme='dark'] .site-nav { gap: 1.5rem; }
   html body #wrapper > section.intro { grid-template-columns: 1fr; grid-template-areas: 'header' 'content'; gap: 2.5rem; min-height: 0; padding-top: 3.5rem; }
   #wrapper > section.intro h1 { font-size: clamp(2.8rem, 7.5vw, 4.5rem); }
   html body #wrapper > section.intro > .content { aspect-ratio: 3 / 2; }
@@ -157,10 +157,10 @@ html .gallery a:focus-visible { box-shadow: 0 0 0 3px var(--accent); }
 }
 @media (max-width: 600px) {
   html { font-size: 15px; }
-  html .site-nav { display: flex; flex-wrap: wrap; gap: .25rem 1.15rem; justify-content: space-between; padding: .8rem 5%; min-height: 0; }
+  html .site-nav, html[data-theme='dark'] .site-nav { display: flex; flex-wrap: wrap; gap: .25rem 1.15rem; justify-content: space-between; padding: .8rem 5%; min-height: 0; }
   .site-nav a { font-size: .69rem; text-align: left; }
   .site-nav a:first-child { margin-right: 0; }
-  html .theme-toggle { margin-left: auto; grid-column: auto; justify-self: auto; font-size: .65rem; }
+  html .theme-toggle, html[data-theme='dark'] .theme-toggle { margin-left: auto; grid-column: auto; justify-self: auto; font-size: .65rem; }
   html body #wrapper > section { padding: 3rem 0; }
   html body #wrapper > section > header { margin-bottom: 2rem; }
   html body #wrapper > section > header h1.page-title { font-size: 2.5rem; }
