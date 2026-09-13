@@ -229,6 +229,50 @@ html .site-footer { background: var(--wash); color: var(--muted); border-top: 1p
 html .site-footer strong { font: 400 1.2rem/1.5 var(--serif); color: var(--ink); }
 html .site-footer a { color: var(--ink); font-size: .8rem; }
 html .site-footer p, html .site-footer small { color: var(--muted); font-size: .75rem; }
+.contact-icon-link,
+html .site-footer .contact-icon-link {
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  color: var(--ink);
+  display: inline-flex;
+  height: 44px;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
+  width: 44px;
+}
+.contact-icon-link::before {
+  background: currentColor;
+  content: '';
+  display: block;
+  height: 20px;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  width: 20px;
+}
+.contact-icon-email::before {
+  -webkit-mask-image: url('../icons/email.svg');
+  mask-image: url('../icons/email.svg');
+}
+.contact-icon-instagram::before {
+  -webkit-mask-image: url('../icons/instagram.svg');
+  mask-image: url('../icons/instagram.svg');
+}
+html .contact-icon-link:hover,
+html .site-footer .contact-icon-link:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+  transform: translateY(-2px);
+}
+html .contact-icon-link:focus-visible { outline-offset: 3px; }
 html .error-code { font-family: var(--serif); font-weight: 400; color: var(--accent); }
 html .skip-link, html .skip-link:focus { color: var(--paper); background: var(--ink); }
 html .gallery a:focus-visible { box-shadow: 0 0 0 3px var(--accent); }
@@ -284,6 +328,28 @@ html .gallery a:focus-visible { box-shadow: 0 0 0 3px var(--accent); }
     white-space: nowrap;
   }
   .site-nav .nav-en, .site-nav .nav-zh { display: inline; }
+  .site-nav a + a { margin-left: .1rem; position: relative; }
+  .site-nav a + a::before {
+    background: var(--rule);
+    content: '';
+    height: 12px;
+    left: -3px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+  }
+  html ul.actions li > .contact-icon-link { width: 44px; }
+  html ul.actions.contact-actions {
+    flex-direction: row;
+    margin-left: -1rem;
+    width: auto !important;
+  }
+  html ul.actions.contact-actions li {
+    flex: 0 0 auto;
+    padding: 0 0 0 1rem;
+    width: auto;
+  }
   html .theme-toggle, html[data-theme='dark'] .theme-toggle {
     flex: 0 0 66px;
     height: 34px;
