@@ -277,9 +277,9 @@ html .gallery a:focus-visible { box-shadow: 0 0 0 3px var(--accent); }
     display: inline-flex;
     flex: 0 0 auto;
     flex-direction: row;
-    font-size: .58rem;
+    font-size: clamp(.58rem, 2.7vw, .8rem);
     gap: .15rem;
-    letter-spacing: .025em;
+    letter-spacing: .015em;
     line-height: 1.4;
     white-space: nowrap;
   }
