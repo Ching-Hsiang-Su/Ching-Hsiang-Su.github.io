@@ -2,17 +2,13 @@
     'use strict';
 
     var storageKey = 'chinghsiang-theme';
-    var mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    var defaultTheme = 'light';
     var savedTheme = null;
 
     try {
         savedTheme = window.localStorage.getItem(storageKey);
     } catch (error) {
         savedTheme = null;
-    }
-
-    function systemTheme() {
-        return 'light';
     }
 
     function validTheme(theme) {
@@ -40,7 +36,7 @@
     }
 
     function applyTheme(theme) {
-        var nextTheme = validTheme(theme) ? theme : systemTheme();
+        var nextTheme = validTheme(theme) ? theme : defaultTheme;
         document.documentElement.dataset.theme = nextTheme;
         document.documentElement.style.colorScheme = nextTheme;
 
@@ -61,7 +57,7 @@
     applyTheme(savedTheme);
 
     document.addEventListener('DOMContentLoaded', function () {
-        updateControls(document.documentElement.dataset.theme || systemTheme());
+        updateControls(document.documentElement.dataset.theme || defaultTheme);
 
         document.querySelectorAll('.theme-toggle').forEach(function (button) {
             button.addEventListener('click', function () {
@@ -72,15 +68,4 @@
         });
     });
 
-    function handleSystemChange() {
-        if (!validTheme(savedTheme)) {
-            applyTheme(systemTheme());
-        }
-    }
-
-    if (typeof mediaQuery.addEventListener === 'function') {
-        mediaQuery.addEventListener('change', handleSystemChange);
-    } else if (typeof mediaQuery.addListener === 'function') {
-        mediaQuery.addListener(handleSystemChange);
-    }
 }());

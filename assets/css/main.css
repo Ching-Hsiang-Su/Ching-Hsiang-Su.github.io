@@ -2677,19 +2677,6 @@ input, select, textarea {
 
 		}
 
-		ul.work-list {
-			display: grid;
-			gap: 0.75rem;
-			list-style: none;
-			padding-left: 0;
-		}
-
-			ul.work-list > li {
-				background: rgba(144, 144, 144, 0.1);
-				border-left: solid 3px #43d9b8;
-				padding: 0.75rem 1rem;
-			}
-
 	dl {
 		margin: 0 0 2rem 0;
 	}
@@ -3958,22 +3945,6 @@ input, select, textarea {
 
 		}
 
-	body.is-mobile #wrapper:before {
-		background-attachment: scroll;
-		background-position: 50% -3%;
-		background-repeat: repeat-y;
-		background-size: 150% auto;
-	}
-
-	body.is-mobile #wrapper > section > header {
-		background-attachment: scroll;
-		background-position: 25% 50%;
-	}
-
-	body.is-mobile #wrapper > section.intro > header {
-		background-position: 25% 23%;
-	}
-
 	body.is-preload #wrapper:before {
 		opacity: 1;
 	}
@@ -4069,38 +4040,6 @@ input, select, textarea {
 			}
 
 		}
-
-	body.is-ie #wrapper section {
-		display: flex;
-		flex-wrap: wrap;
-	}
-
-		body.is-ie #wrapper section > header {
-			width: 50%;
-		}
-
-		body.is-ie #wrapper section > .content {
-			width: 50%;
-		}
-
-		body.is-ie #wrapper section > footer {
-			width: 50%;
-			text-align: left;
-			margin-left: 50%;
-			padding: 5rem;
-		}
-
-	body.is-ie #wrapper > section > .content > section {
-		width: 100vw;
-	}
-
-	@media screen and (max-width: 1280px) {
-
-		body.is-ie #wrapper section > footer {
-			padding: 4rem;
-		}
-
-	}
 
 	@media (prefers-reduced-motion: reduce) {
 
@@ -4252,13 +4191,6 @@ input, select, textarea {
 			color: rgba(0, 0, 0, 0.6);
 			font-size: 0.85rem;
 		}
-
-	.portfolio-note {
-		background: rgba(144, 144, 144, 0.1);
-		border-left: solid 3px #43d9b8;
-		margin-top: 2rem;
-		padding: 1rem 1.25rem;
-	}
 
 	.portfolio-groups {
 		margin-top: 3rem;
@@ -4560,48 +4492,6 @@ input, select, textarea {
 			text-transform: uppercase;
 		}
 
-	ul.work-list {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		margin: 0 0 3rem 0;
-	}
-
-		ul.work-list > li {
-			background: #f7f7f7;
-			border-left: 0;
-			border-top: solid 3px #43d9b8;
-			box-shadow: 0 0.6rem 1.5rem rgba(0, 0, 0, 0.06);
-			display: flex;
-			flex-direction: column;
-			min-height: 8rem;
-			padding: 1.25rem;
-		}
-
-		ul.work-list .work-meta {
-			color: rgba(0, 0, 0, 0.6);
-			font-family: "Raleway", Helvetica, sans-serif;
-			font-size: 0.7rem;
-			letter-spacing: 0.08em;
-			margin-bottom: 0.6rem;
-			text-transform: uppercase;
-		}
-
-		ul.work-list .work-title {
-			font-size: 1.05rem;
-			line-height: 1.55;
-		}
-
-	@media screen and (max-width: 736px) {
-
-		ul.work-list {
-			grid-template-columns: 1fr;
-		}
-
-			ul.work-list > li {
-				min-height: 0;
-			}
-
-	}
-
 	.category-nav {
 		border-top: solid 1px rgba(144, 144, 144, 0.25);
 		display: grid;
@@ -4639,41 +4529,6 @@ input, select, textarea {
 			.category-nav a:last-child {
 				text-align: left;
 			}
-
-	}
-
-	.profile-stats {
-		display: grid;
-		gap: 1rem;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		margin: 2rem 0 3rem 0;
-	}
-
-		.profile-stats > div {
-			background: rgba(144, 144, 144, 0.1);
-			border-top: solid 3px #43d9b8;
-			padding: 1rem;
-		}
-
-		.profile-stats dt {
-			color: #000000;
-			font-family: "Raleway", Helvetica, sans-serif;
-			font-size: 1.35rem;
-			font-weight: 800;
-			margin: 0 0 0.35rem 0;
-		}
-
-		.profile-stats dd {
-			font-size: 0.85rem;
-			line-height: 1.6;
-			margin: 0;
-		}
-
-	@media screen and (max-width: 480px) {
-
-		.profile-stats {
-			grid-template-columns: 1fr;
-		}
 
 	}
 
@@ -4864,8 +4719,6 @@ input, select, textarea {
 	#wrapper:before,
 	#wrapper > section > header,
 	.video-card,
-	ul.work-list > li,
-	.profile-stats > div,
 	.post-card,
 	.gallery.portfolio-gallery > a,
 	.gallery .modal {
@@ -4948,7 +4801,6 @@ input, select, textarea {
 	html[data-theme="dark"] code,
 	html[data-theme="dark"] ul.hero-services a,
 	html[data-theme="dark"] ul.profile-services a,
-	html[data-theme="dark"] .portfolio-note,
 	html[data-theme="dark"] .skeleton-title,
 	html[data-theme="dark"] .skeleton-image,
 	html[data-theme="dark"] .skeleton-line {
@@ -4968,25 +4820,14 @@ input, select, textarea {
 	}
 
 	html[data-theme="dark"] .video-card,
-	html[data-theme="dark"] ul.work-list > li,
-	html[data-theme="dark"] .profile-stats > div,
 	html[data-theme="dark"] .post-card {
 		background: #1c2024;
 		box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.28);
 	}
 
-	html[data-theme="dark"] .profile-stats dt {
-		color: #ffffff;
-	}
-
-	html[data-theme="dark"] .profile-stats dd {
-		color: rgba(242, 244, 243, 0.78);
-	}
-
 	html[data-theme="dark"] .portfolio-cover figcaption,
 	html[data-theme="dark"] .portfolio-group-meta,
 	html[data-theme="dark"] .portfolio-carousel-status,
-	html[data-theme="dark"] ul.work-list .work-meta,
 	html[data-theme="dark"] .post-meta {
 		color: rgba(242, 244, 243, 0.66);
 	}

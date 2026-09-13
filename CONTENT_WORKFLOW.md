@@ -6,8 +6,11 @@
 
 - `portfolio.json`：作品名稱、年份、類型、順序、圖片編號與 YouTube ID。
 - `scripts/process_images.py`：將原始照片縮至適合網頁的尺寸，並輸出 WebP。
+- `blog.json`：網誌頁面顯示的 Medium 文章資料。
+- `scripts/update_blog.py`：發布前讀取 Medium RSS 並更新 `blog.json`。
 - `images/portfolio/<分類>/`：網站使用的大圖。
-- `images/portfolio/<分類>/thumbs/`：輪播使用的縮圖；目前 `event` 分類會自動建立。
+- `images/portfolio/<分類>/medium/`：高解析螢幕與較寬版面使用的中尺寸圖片。
+- `images/portfolio/<分類>/thumbs/`：手機與作品列表優先使用的縮圖。
 
 目前的照片分類代號為：
 
@@ -41,8 +44,9 @@
 
 圖片輸出預設值如下：
 
-- 大圖最長邊 1600px，WebP 品質 85。
-- 活動紀錄縮圖最長邊 720px，WebP 品質 78。
+- 大圖最長邊 1600px，WebP 品質 85，供燈箱放大查看。
+- 中尺寸寬度 1200px，WebP 品質 82，供高解析螢幕使用。
+- 縮圖寬度 720px，WebP 品質 78，供手機與作品列表使用。
 - 原始照片不會被修改。
 - 如果預計輸出的檔名已存在，腳本會停止，避免意外覆寫。
 
@@ -58,7 +62,7 @@ python3 scripts/process_images.py incoming/新作品 event --dry-run
 python3 scripts/process_images.py incoming/新作品 event --start 57 --overwrite
 ```
 
-若非活動分類也需要縮圖，可加上 `--thumbnails`；不想為活動分類建立縮圖時，可加上 `--no-thumbnails`。
+所有照片分類都已在 `portfolio.json` 設定中尺寸與縮圖資料夾。若新增暫時分類且尚未設定縮圖，可加上 `--thumbnails`；確定不需要縮圖時可加上 `--no-thumbnails`。
 
 ## `portfolio.json` 照片欄位
 
@@ -98,10 +102,21 @@ python3 scripts/process_images.py incoming/新作品 event --start 57 --overwrit
 
 例如 `https://www.youtube.com/watch?v=AWyDeMMhLkU` 的 YouTube ID 是 `AWyDeMMhLkU`。影片會依陣列順序顯示。
 
+## 更新網誌文章
+
+網誌頁面只讀取專案內的 `blog.json`，瀏覽者開啟網站時不需要等待 RSS 或第三方轉接服務。每次在 Medium 發布或修改文章後，在專案根目錄執行：
+
+```bash
+python3 scripts/update_blog.py
+```
+
+腳本會下載 Medium RSS、保留最新 6 篇文章，並更新標題、發布日期、首圖、摘要與連結。若下載或解析失敗，既有的 `blog.json` 會保留，不會被空資料覆蓋。
+
 ## 發布前檢查
 
 ```bash
 python3 -m json.tool portfolio.json > /dev/null
+python3 -m json.tool blog.json > /dev/null
 git status --short
 ```
 

@@ -6,6 +6,8 @@
       "page": "gallery-art.html",
       "imageDirectory": "images/portfolio/art",
       "imagePrefix": "art",
+      "thumbnailDirectory": "thumbs",
+      "mediumDirectory": "medium",
       "extension": "webp",
       "layout": "grid",
       "projects": [
@@ -50,6 +52,7 @@
       "imageDirectory": "images/portfolio/event",
       "imagePrefix": "event",
       "thumbnailDirectory": "thumbs",
+      "mediumDirectory": "medium",
       "extension": "webp",
       "layout": "carousel",
       "projects": [
@@ -124,6 +127,8 @@
       "page": "gallery-food.html",
       "imageDirectory": "images/portfolio/food",
       "imagePrefix": "food",
+      "thumbnailDirectory": "thumbs",
+      "mediumDirectory": "medium",
       "extension": "webp",
       "layout": "grid",
       "projects": [
@@ -155,6 +160,8 @@
       "page": "gallery-landscape.html",
       "imageDirectory": "images/portfolio/landscape",
       "imagePrefix": "landscape",
+      "thumbnailDirectory": "thumbs",
+      "mediumDirectory": "medium",
       "extension": "webp",
       "layout": "grid",
       "dimensions": {
