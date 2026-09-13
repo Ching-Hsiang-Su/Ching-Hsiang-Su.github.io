@@ -268,22 +268,38 @@ html .gallery a:focus-visible { box-shadow: 0 0 0 3px var(--accent); }
   html .site-nav, html[data-theme='dark'] .site-nav {
     align-items: center;
     flex-wrap: nowrap;
-    gap: .6rem;
+    gap: .25rem;
     justify-content: flex-start;
-    padding: .55rem 4%;
+    padding: .5rem 2%;
   }
   .site-nav a {
     align-items: center;
     display: inline-flex;
     flex: 0 0 auto;
-    flex-direction: column;
-    font-size: .62rem;
-    gap: .05rem;
-    line-height: 1.25;
+    flex-direction: row;
+    font-size: .58rem;
+    gap: .15rem;
+    letter-spacing: .025em;
+    line-height: 1.4;
     white-space: nowrap;
   }
-  .site-nav .nav-en, .site-nav .nav-zh { display: block; }
-  html .theme-toggle, html[data-theme='dark'] .theme-toggle { flex: 0 0 78px; margin-left: auto; }
+  .site-nav .nav-en, .site-nav .nav-zh { display: inline; }
+  html .theme-toggle, html[data-theme='dark'] .theme-toggle {
+    flex: 0 0 66px;
+    height: 34px;
+    margin-left: auto;
+    min-width: 66px;
+    width: 66px;
+  }
+  .theme-toggle:before, .theme-toggle:after {
+    font-size: 18px;
+    height: 24px;
+    top: 3px;
+    width: 24px;
+  }
+  .theme-toggle:after { background-size: 17px 17px; }
+  html .theme-toggle-icon, html[data-theme='dark'] .theme-toggle-icon { height: 24px; width: 24px; }
+  html[data-theme='dark'] .theme-toggle-icon { transform: translateX(34px); }
 }
 /* Do not hide the portfolio while waiting for external assets. */
 html body.is-preload #wrapper > section { opacity: 1; }
