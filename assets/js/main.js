@@ -225,8 +225,7 @@
 		if ($portfolioDataTargets.length) {
 			$.ajax({
 				url: 'portfolio.json',
-				dataType: 'json',
-				cache: false
+				dataType: 'json'
 			})
 				.done(function(data) {
 					try {
