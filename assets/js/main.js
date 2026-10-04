@@ -16,6 +16,10 @@
 			}, 100);
 		});
 
+		var prefersReducedMotion = function() {
+			return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		};
+
 	// Smooth in-page navigation.
 		$('.scrolly').on('click', function(event) {
 			var selector = $(this).attr('href'),
@@ -26,7 +30,7 @@
 
 			event.preventDefault();
 			target.scrollIntoView({
-				behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+				behavior: prefersReducedMotion() ? 'auto' : 'smooth'
 			});
 		});
 
@@ -195,25 +199,54 @@
 
 			var updateControls = function() {
 				var maximum = Math.max(0, track.scrollWidth - track.clientWidth),
-					current = Math.min(count, Math.round(track.scrollLeft / getStep()) + 1);
+					step = getStep(),
+					card = $track.children('a').get(0),
+					gap = card ? step - card.getBoundingClientRect().width : 0,
+					first = Math.min(count, Math.round(Math.max(0, track.scrollLeft) / step) + 1),
+					visible = Math.max(1, Math.round((track.clientWidth + gap) / step)),
+					last = Math.min(count, first + visible - 1),
+					status = (first === last ? first : first + '–' + last) + ' / ' + count;
 
 				$previous.prop('disabled', track.scrollLeft <= 1);
 				$next.prop('disabled', track.scrollLeft >= maximum - 1);
-				$status.text(current + ' / ' + count);
+				if ($status.text() !== status)
+					$status.text(status);
+			};
+
+			var scrollTo = function(destination) {
+				if (typeof track.scrollTo === 'function')
+					track.scrollTo({ left: destination, behavior: prefersReducedMotion() ? 'instant' : 'smooth' });
+				else
+					$track.stop().animate({ scrollLeft: destination }, prefersReducedMotion() ? 0 : 250);
 			};
 
 			var move = function(direction) {
-				var destination = track.scrollLeft + (getStep() * direction);
-
-				if (typeof track.scrollTo === 'function')
-					track.scrollTo({ left: destination, behavior: 'smooth' });
-				else
-					$track.stop().animate({ scrollLeft: destination }, 250);
+				scrollTo(track.scrollLeft + (getStep() * direction));
 			};
 
 			$previous.on('click', function() { move(-1); });
 			$next.on('click', function() { move(1); });
-			$track.on('scroll', updateControls);
+			$track.on('keydown', function(event) {
+				if (event.target !== track || event.altKey || event.ctrlKey || event.metaKey)
+					return;
+				if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+					event.preventDefault();
+					move(event.key === 'ArrowLeft' ? -1 : 1);
+				}
+				else if (event.key === 'Home' || event.key === 'End') {
+					event.preventDefault();
+					scrollTo(event.key === 'Home' ? 0 : track.scrollWidth);
+				}
+			});
+			var scrollFrame = null;
+			$track.on('scroll', function() {
+				if (scrollFrame !== null)
+					return;
+				scrollFrame = window.requestAnimationFrame(function() {
+					scrollFrame = null;
+					updateControls();
+				});
+			});
 			$window.on('resize', updateControls);
 			updateControls();
 
@@ -255,12 +288,14 @@
 
 	// Gallery.
 		var $galleryModalHost = $('<div class="gallery gallery-lightbox-host"></div>').appendTo($body),
-			$galleryModal = $('<div class="modal" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true" aria-label="作品預覽"><button type="button" class="modal-close" aria-label="關閉作品預覽"></button><button type="button" class="modal-navigation previous" aria-label="上一張"></button><div class="inner"><img alt="" /></div><button type="button" class="modal-navigation next" aria-label="下一張"></button><span class="modal-status" aria-live="polite"></span></div>').appendTo($galleryModalHost),
+			$galleryModal = $('<div class="modal" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true" aria-label="作品預覽"><button type="button" class="modal-close" aria-label="關閉作品預覽"></button><button type="button" class="modal-navigation previous" aria-label="上一張"></button><div class="inner"><img alt="" /></div><div class="modal-error" role="status" hidden><p>圖片暫時無法載入，請重試或切換其他照片。</p><button type="button" class="modal-retry">重新載入</button></div><button type="button" class="modal-navigation next" aria-label="下一張"></button><span class="modal-status" aria-live="polite"></span></div>').appendTo($galleryModalHost),
 			$galleryImage = $galleryModal.find('img'),
 			$galleryClose = $galleryModal.find('.modal-close'),
 			$galleryPrevious = $galleryModal.find('.modal-navigation.previous'),
 			$galleryNext = $galleryModal.find('.modal-navigation.next'),
 			$galleryStatus = $galleryModal.find('.modal-status'),
+			$galleryError = $galleryModal.find('.modal-error'),
+			backgroundElements = [],
 			swipeStart = null;
 
 		var getGalleryItems = function($link) {
@@ -278,15 +313,19 @@
 
 			index = Math.max(0, Math.min(index, count - 1));
 			var $link = items.eq(index),
+				activeControl = document.activeElement,
 				href = $link.attr('href'),
 				alt = $link.find('img').attr('alt') || '';
 
 			$galleryModal[0]._index = index;
-			$galleryModal.removeClass('loaded').toggleClass('single-image', count === 1);
+			$galleryError.prop('hidden', true);
+			$galleryModal.removeClass('loaded has-error').attr('aria-busy', 'true').toggleClass('single-image', count === 1);
 			$galleryImage.attr({ src: href, alt: alt });
 			$galleryPrevious.prop('disabled', index === 0);
 			$galleryNext.prop('disabled', index === count - 1);
 			$galleryStatus.text((index + 1) + ' / ' + count);
+			if ($galleryModal.hasClass('visible') && (activeControl.disabled || $galleryError[0].contains(activeControl)))
+				$galleryClose[0].focus({ preventScroll: true });
 		};
 
 		var moveGalleryImage = function(direction) {
@@ -297,32 +336,32 @@
 		};
 
 		var closeGallery = function() {
-			if ($galleryModal[0]._closing || !$galleryModal.hasClass('visible'))
+			if (!$galleryModal.hasClass('visible'))
 				return;
 
-			$galleryModal[0]._closing = true;
-			$galleryModal.removeClass('loaded visible').attr('aria-hidden', 'true');
+			backgroundElements.forEach(function(element) {
+				element.node.inert = element.inert;
+			});
+			backgroundElements = [];
 			$body.removeClass('is-modal-open');
-
-			window.setTimeout(function() {
-				$galleryImage.removeAttr('src').attr('alt', '');
-				$galleryModal[0]._closing = false;
-
-				if ($galleryModal[0]._returnFocus)
-					$($galleryModal[0]._returnFocus).trigger('focus');
-
-				$galleryModal[0]._returnFocus = null;
-				$galleryModal[0]._items = null;
-			}, 500);
+			document.documentElement.classList.remove('is-modal-open');
+			if ($galleryModal[0]._returnFocus && $galleryModal[0]._returnFocus.isConnected)
+				$galleryModal[0]._returnFocus.focus({ preventScroll: true });
+			$galleryModal.removeClass('loaded visible has-error').attr({ 'aria-hidden': 'true', 'aria-busy': 'false' });
+			$galleryImage.removeAttr('src').attr('alt', '');
+			$galleryError.prop('hidden', true);
+			$galleryModal[0]._returnFocus = null;
+			$galleryModal[0]._items = null;
+			swipeStart = null;
 		};
 
 		$body.on('click', '.gallery a', function(event) {
 
 			var $a = $(this),
-				href = $a.attr('href'),
+				href = $a.attr('href') || '',
 				$items = getGalleryItems($a);
 
-			if (!href.match(/\.(jpe?g|gif|png|webp)(\?.*)?$/i))
+			if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || !href.match(/\.(jpe?g|gif|png|webp)(\?.*)?$/i))
 				return;
 
 			event.preventDefault();
@@ -336,20 +375,29 @@
 				.addClass('visible')
 				.attr('aria-hidden', 'false');
 			$body.addClass('is-modal-open');
+			document.documentElement.classList.add('is-modal-open');
 
-			window.setTimeout(function() {
-				$galleryClose[0].focus();
-			}, 100);
+			$galleryClose[0].focus({ preventScroll: true });
+			if (!backgroundElements.length) {
+				$body.children().not($galleryModalHost).each(function() {
+					backgroundElements.push({ node: this, inert: this.inert });
+					this.inert = true;
+				});
+			}
 
 		});
 
 		$galleryClose.on('click', closeGallery);
+		$galleryModal.find('.modal-retry').on('click', function() {
+			$galleryImage.removeAttr('src');
+			showGalleryImage($galleryModal[0]._index || 0);
+		});
 		$galleryPrevious.on('click', function() { moveGalleryImage(-1); });
 		$galleryNext.on('click', function() { moveGalleryImage(1); });
 
 		$galleryModal
 			.on('click', function(event) {
-				if (event.target === this)
+				if (event.target === this || $(event.target).hasClass('inner'))
 					closeGallery();
 			})
 			.on('keydown', function(event) {
@@ -368,11 +416,15 @@
 				}
 
 				if (event.key === 'Tab') {
-					var $controls = $galleryModal.find('button:not(:disabled)'),
+					var $controls = $galleryModal.find('button:not(:disabled)').filter(':visible'),
 						first = $controls[0],
 						last = $controls[$controls.length - 1];
 
-					if (event.shiftKey && document.activeElement === first) {
+					if (!$controls.is(document.activeElement)) {
+						event.preventDefault();
+						(event.shiftKey ? last : first).focus();
+					}
+					else if (event.shiftKey && document.activeElement === first) {
 						event.preventDefault();
 						last.focus();
 					}
@@ -384,33 +436,35 @@
 
 			})
 			.on('touchstart', '.inner', function(event) {
-				var touch = event.originalEvent.touches[0];
-				swipeStart = { x: touch.clientX, y: touch.clientY };
+				var touches = event.originalEvent.touches;
+				swipeStart = touches.length === 1 ? { x: touches[0].clientX, y: touches[0].clientY } : null;
 			})
+			.on('touchcancel', '.inner', function() { swipeStart = null; })
 			.on('touchend', '.inner', function(event) {
 				if (!swipeStart)
 					return;
-
-				var touch = event.originalEvent.changedTouches[0],
-					deltaX = touch.clientX - swipeStart.x,
-					deltaY = touch.clientY - swipeStart.y;
-
+				var start = swipeStart;
 				swipeStart = null;
+				if (event.originalEvent.touches.length || (window.visualViewport && window.visualViewport.scale > 1))
+					return;
+				var touch = event.originalEvent.changedTouches[0],
+					deltaX = touch.clientX - start.x,
+					deltaY = touch.clientY - start.y;
+
 				if (Math.abs(deltaX) >= 50 && Math.abs(deltaX) > Math.abs(deltaY))
 					moveGalleryImage(deltaX > 0 ? -1 : 1);
+			});
+
+		$galleryImage
+			.on('load', function() {
+				if ($galleryModal.hasClass('visible') && this.naturalWidth > 0)
+					$galleryModal.addClass('loaded').attr('aria-busy', 'false');
 			})
-			.find('img')
-				.on('load', function() {
-
-					setTimeout(function() {
-
-						if (!$galleryModal.hasClass('visible'))
-							return;
-
-						$galleryModal.addClass('loaded');
-
-					}, 275);
-
-				});
+			.on('error', function() {
+				if (!$galleryModal.hasClass('visible') || !this.getAttribute('src'))
+					return;
+				$galleryModal.removeClass('loaded').addClass('has-error').attr('aria-busy', 'false');
+				$galleryError.prop('hidden', false);
+			});
 
 })(jQuery);
